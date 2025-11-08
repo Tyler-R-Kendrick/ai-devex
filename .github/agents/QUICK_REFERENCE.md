@@ -1,9 +1,10 @@
-# Quick Reference: 15 Custom Agents for Code Modernization
+# Quick Reference: 16 Custom Agents for Code Modernization
 
 ## Agent Quick Lookup
 
 | Agent | Focus | When to Use |
 |-------|-------|-------------|
+| **modernize** | Quick-start modernization | Single command to kickoff full modernization |
 | **modernization-legacy-modeler** | Current state analysis | Starting modernization - analyze what exists |
 | **modernization-desired-state-modeler** | Target state design | Define where you want to be |
 | **modernization-planner** | Strategy & roadmap | Create comprehensive migration plan |
@@ -22,7 +23,14 @@
 
 ## Common Commands
 
-### Full Modernization
+### Quick Start Modernization (Single Command)
+```
+@modernize /path/to/legacy/codebase
+@modernize https://github.com/org/legacy-repo.git
+@modernize https://github.com/org/legacy-repo.git#v1.2.3
+```
+
+### Full Modernization (Manual Steps)
 ```
 @modernization-legacy-modeler Analyze our [tech stack] [age]-year-old application
 @modernization-desired-state-modeler Design target using [modern tech] with [patterns]
@@ -61,7 +69,19 @@
 
 ## Workflow Examples
 
-### Complete Modernization Project
+### Complete Modernization Project (Quick Start)
+
+Use the modernize command for the fastest way to kickoff:
+```
+@modernize /path/to/legacy/java8-monolith
+```
+
+This automatically orchestrates:
+1. Legacy system analysis
+2. Target state design
+3. Migration strategy and roadmap
+
+### Complete Modernization Project (Manual Steps)
 
 **Phase 1: Analysis**
 ```
@@ -200,6 +220,9 @@ adr-generator (document)
 
 ## Quick Decision Guide
 
+**Need quick-start modernization?**
+→ @modernize [source-location]
+
 **Need to understand what exists?**
 → @modernization-legacy-modeler or @knowledge-retriever
 
@@ -315,10 +338,11 @@ adr-generator (document)
 
 ## Version Info
 
-- **Version**: 2.1
-- **Agents**: 15 total
+- **Version**: 2.2
+- **Agents**: 16 total
 - **Last Updated**: 2025-11-08
-- **Structure**: 3 modernization orchestration, 3 knowledge management, 6 specification/documentation, 3 architecture/guidance
+- **New in v2.2**: Added modernize quick-start command
+- **Structure**: 1 entry point, 3 modernization orchestration, 3 knowledge management, 6 specification/documentation, 3 architecture/guidance
 
 ---
 
