@@ -40,6 +40,38 @@ Prompt files are markdown-based instructions stored in `.github/prompts/` that g
 - With branch/tag: `https://github.com/user/repo.git#branch-name`
 - With commit: `https://github.com/user/repo.git#abc123`
 
+### optimize-prompt
+
+**File:** `optimize-prompt.prompt.md`
+
+**Purpose:** Optimize a prompt file by applying prompt engineering best practices including in-context learning, cognitive architectures, and ambiguity resolution.
+
+**Usage:**
+```
+/optimize-prompt ./prompts/my-prompt.md
+/optimize-prompt ${file}
+/optimize-prompt
+```
+
+**Default Behavior:** If a prompt file is open in the editor, uses that file. Otherwise, prompts the user for a file path.
+
+**What it does:**
+1. Reads and analyzes the provided prompt file
+2. Identifies issues, ambiguities, and improvement opportunities
+3. Coordinates with `@prompt-engineer` to apply best practices
+4. Applies in-context learning patterns (zero-shot, few-shot, multi-shot)
+5. Implements cognitive architecture patterns (CoT, ToT, GoT, etc.)
+6. Optimizes structural context and resolves ambiguities
+7. Presents the optimized prompt with before/after comparison
+8. Offers to save the optimized version
+
+**Supported file formats:**
+- Absolute paths: `/path/to/prompt.md`
+- Relative paths: `./prompts/prompt.md`
+- Workspace paths: `${workspaceFolder}/prompts/prompt.md`
+- Current file: `${file}` (when file is open in editor)
+- Any text file containing a prompt
+
 ## How to Use Prompt Files
 
 ### In VS Code
