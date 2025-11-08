@@ -69,7 +69,7 @@
           "ASPNETCORE_ENVIRONMENT": "Development"
         },
         "sourceFileMap": {
-          "/Views": "${workspaceFolder}/Views"
+          "/Components": "${workspaceFolder}/ChatApp/Components"
         }
       }
     ]
