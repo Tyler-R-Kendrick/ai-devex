@@ -57,35 +57,37 @@ aspire init
 aspire run
 ```
 
-#### Python Single-File Configuration
+#### Python Service Orchestration
 
-Aspire also supports Python applications. Create a minimal configuration:
+> **Note:** .NET Aspire is a .NET-specific technology and does not provide a native Python SDK or package. However, Aspire can orchestrate Python services by running them as containers.
 
-```python
-# app.py
-from aspire import DistributedApplication
+To orchestrate a Python service with Aspire, create a Dockerfile for your Python application:
 
-app = DistributedApplication()
-
-# Add your services
-redis = app.add_redis("cache")
-api = app.add_container("api", "myapp:latest")
-
-# Connect services
-api.with_reference(redis)
-
-if __name__ == "__main__":
-    app.run()
+```dockerfile
+# Dockerfile for Python service
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]
 ```
 
-Run the Python Aspire application:
+Then add it to your Aspire configuration as a container:
 
-```powershell
-# Install Python Aspire package
-uv pip install aspire-hosting
+```csharp
+using Aspire.Hosting;
 
-# Run your application
-python app.py
+var builder = DistributedApplication.CreateBuilder(args);
+
+// Add Redis
+var cache = builder.AddRedis("cache");
+
+// Add Python service as a container
+var pythonWorker = builder.AddContainer("python-worker", "your-python-image")
+    .WithReference(cache);
+
+builder.Build().Run();
 ```
 
 ### Creating a New Aspire Project
@@ -136,23 +138,21 @@ var cache = builder.AddRedis("cache");
 builder.Build().Run();
 ```
 
-**Python Example:**
-```python
-# app.py
-from aspire import DistributedApplication
-app = DistributedApplication()
-app.add_redis("cache")
-app.run()
+**Python Service (as Container):**
+```csharp
+// AppHost/Program.cs - Orchestrating a Python service
+var builder = DistributedApplication.CreateBuilder(args);
+var cache = builder.AddRedis("cache");
+var pythonApp = builder.AddContainer("python-app", "my-python-image")
+    .WithReference(cache);
+builder.Build().Run();
 ```
 
 ### 2. Run and Test
 
 ```powershell
-# For .NET
-aspire run app.cs
-
-# For Python
-python app.py
+# For .NET Aspire projects
+dotnet run --project AppHost
 ```
 
 ### 3. Add Services
@@ -201,16 +201,33 @@ aspire logs
    var redisHost = builder.Configuration["Redis:Host"] ?? "localhost";
    ```
 
-### Multi-Language Support
+### Container Orchestration
 
-Aspire works seamlessly with both .NET and Python:
+Aspire can orchestrate services written in different languages by running them as containers. While Aspire itself is a .NET technology, it excels at managing multi-language distributed applications.
 
-```powershell
-# .NET service
-aspire add service api --language csharp
+**Example: Orchestrating .NET and Python services:**
 
-# Python service
-aspire add service worker --language python
+```csharp
+// AppHost/Program.cs
+using Aspire.Hosting;
+
+var builder = DistributedApplication.CreateBuilder(args);
+
+// Add infrastructure
+var cache = builder.AddRedis("cache");
+var postgres = builder.AddPostgres("postgres");
+
+// Add .NET service
+var api = builder.AddProject<Projects.ApiService>("api")
+    .WithReference(cache)
+    .WithReference(postgres);
+
+// Add Python service as container
+var pythonWorker = builder.AddContainer("python-worker", "my-python-worker")
+    .WithReference(cache)
+    .WithReference(postgres);
+
+builder.Build().Run();
 ```
 
 ## Troubleshooting
@@ -259,6 +276,7 @@ aspire logs [service-name]
 ### Example 1: Simple Redis Cache Service
 
 ```csharp
+// AppHost/Program.cs
 using Aspire.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -266,13 +284,15 @@ builder.AddRedis("cache").WithDataVolume();
 builder.Build().Run();
 ```
 
+Run the application:
 ```powershell
-aspire run redis-example.cs
+dotnet run --project AppHost
 ```
 
 ### Example 2: Multi-Service Application
 
 ```csharp
+// AppHost/Program.cs
 using Aspire.Hosting;
 
 var builder = DistributedApplication.CreateBuilder(args);
@@ -286,25 +306,28 @@ var api = builder.AddProject<Projects.Api>("api")
 builder.Build().Run();
 ```
 
-### Example 3: Python with Redis
+### Example 3: Orchestrating Python Service with Redis
 
-```python
-from aspire import DistributedApplication
+```csharp
+// AppHost/Program.cs
+using Aspire.Hosting;
 
-app = DistributedApplication()
+var builder = DistributedApplication.CreateBuilder(args);
 
-# Add Redis
-redis = app.add_redis("cache", port=6379)
+// Add Redis
+var redis = builder.AddRedis("cache");
 
-# Add a Python service
-worker = app.add_python_project("worker", path="./worker")
-worker.with_reference(redis)
+// Add Python worker as container
+var pythonWorker = builder.AddContainer("python-worker", "python-worker:latest")
+    .WithReference(redis)
+    .WithEnvironment("REDIS_HOST", redis.Resource.Name);
 
-app.run()
+builder.Build().Run();
 ```
 
+Build and run:
 ```powershell
-python aspire-app.py
+dotnet run --project AppHost
 ```
 
 ## Contributing

@@ -31,6 +31,17 @@ try {
     Write-Host "✗ Failed to install .NET Aspire CLI: $_" -ForegroundColor Red
 }
 
+# Install GitHub spec-kit
+Write-Host "Installing GitHub spec-kit..." -ForegroundColor Cyan
+try {
+    # Install spec-kit as npm global package
+    npm install -g @github/spec-kit
+    
+    Write-Host "✓ GitHub spec-kit installed successfully" -ForegroundColor Green
+} catch {
+    Write-Host "✗ Failed to install GitHub spec-kit: $_" -ForegroundColor Red
+}
+
 # Verify installations
 Write-Host "`nVerifying installations..." -ForegroundColor Cyan
 
@@ -80,6 +91,14 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
     Write-Host "✓ Docker: $dockerVersion" -ForegroundColor Green
 } else {
     Write-Host "✗ docker not found" -ForegroundColor Yellow
+}
+
+# Check spec-kit
+if (Get-Command spec-kit -ErrorAction SilentlyContinue) {
+    $specKitVersion = spec-kit --version
+    Write-Host "✓ spec-kit: $specKitVersion" -ForegroundColor Green
+} else {
+    Write-Host "✗ spec-kit not found" -ForegroundColor Yellow
 }
 
 Write-Host "`nPost-create setup completed!" -ForegroundColor Green
