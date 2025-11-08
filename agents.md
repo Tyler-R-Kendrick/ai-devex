@@ -150,6 +150,6 @@ dotnet user-secrets set Key Value --project ChatApp
 
 ## References
 
-- [.NET CLI Documentation](https://docs.microsoft.com/en-us/dotnet/core/tools/)
-- [PowerShell Core Documentation](https://docs.microsoft.com/en-us/powershell/)
-- [ASP.NET Core Documentation](https://docs.microsoft.com/en-us/aspnet/core/)
+- [.NET CLI Documentation](https://learn.microsoft.com/en-us/dotnet/core/tools/)
+- [PowerShell Core Documentation](https://learn.microsoft.com/en-us/powershell/)
+- [ASP.NET Core Documentation](https://learn.microsoft.com/en-us/aspnet/core/)
