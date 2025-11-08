@@ -1,46 +1,93 @@
-# AI DevEx - AI Chat Application
+# AI DevEx - AI-Driven Developer Experience Tools
 
-An AI chat application with custom data support, built with ASP.NET Core and Blazor, featuring GitHub Copilot integration with Model Context Protocol (MCP) servers.
+A comprehensive toolkit for AI-powered software development, modernization, and specification-driven development featuring 15 specialized GitHub Copilot agents and integration with GitHub Spec Kit.
 
-## Features
+## Overview
 
-- **AI Chat with Custom Data** - Chat with AI models using your own data
-- **GitHub Models Integration** - Powered by GitHub Models API
-- **Vector Store** - Custom JSON-based vector storage
-- **SQLite Database** - Efficient data ingestion caching
-- **Blazor UI** - Modern, responsive web interface
-- **MCP Server Support** - Enhanced GitHub Copilot capabilities
+This repository provides:
+- **15 Custom GitHub Copilot Agents** for comprehensive code modernization
+- **Specification-Driven Development** workflow with GitHub Spec Kit integration
+- **AI Chat Application** demonstrating custom data integration
+- **VS Code Workspace with MCP Servers** for enhanced GitHub Copilot Chat
+- **Development Environment** with pre-configured dev container
 
-## Getting Started
+## 🤖 GitHub Copilot Agents
 
-### Quick Start
+The repository includes 15 specialized agents designed for both **GitHub Copilot Coding Agent** and **GitHub Copilot Agent Mode**. These agents work together to provide end-to-end support for modernization projects.
 
-1. **Open the Workspace:**
-   ```powershell
-   code ai-devex.code-workspace
-   ```
+### Agent Categories
 
-2. **Configure GitHub Token for MCP:**
-   ```powershell
-   $env:GITHUB_TOKEN = "ghp_your_token"
-   ```
+#### Modernization Orchestration (3 agents)
+- **modernization-legacy-modeler** - Analyze and model legacy systems
+- **modernization-desired-state-modeler** - Define target architecture
+- **modernization-planner** - Create migration strategies and roadmaps
 
-3. **Configure GitHub Models Token:**
-   ```powershell
-   cd ChatApp
-   dotnet user-secrets set GitHubModels:Token YOUR-TOKEN
-   ```
+#### Knowledge Management (3 agents)
+- **knowledge-modeler** - Design knowledge structures and storage
+- **knowledge-retriever** - Search and surface relevant information
+- **knowledge-generator** - Create documentation through collaboration
 
-4. **Run the Application:**
-   ```powershell
-   dotnet run --project ChatApp
-   ```
+#### Specification & Documentation (6 agents)
+- **spec-generator** - Generate formal specifications (PRDs, BRDs, TRDs, OpenAPI, Gherkin)
+- **adr-generator** - Create Architecture Decision Records
+- **tool-documentation** - Manage tool knowledge and Copilot instructions
+- **deps-documentation** - Manage dependency knowledge and security
+- **copilot-instructions** - Generate Copilot instruction prompts
+- **prompt-engineer** - Apply prompt engineering best practices
 
-For detailed setup instructions, see [QUICKSTART.md](QUICKSTART.md).
+#### Architecture & Technical Guidance (3 agents)
+- **architect** - Provide architecture patterns and migration paths
+- **research** - Conduct research with quality evaluation
+- **setup-planner** - Analyze tools and plan installation
 
-## VS Code Workspace with MCP Servers
+### Using the Agents
 
-This repository includes a pre-configured VS Code workspace with three MCP servers for enhanced GitHub Copilot Chat capabilities:
+#### In GitHub Copilot Chat (VS Code, GitHub.com, etc.)
+```
+@modernization-planner Create a migration strategy from our PHP monolith to microservices
+```
+
+#### In GitHub Copilot Coding Agent
+The agents are available through GitHub Copilot's coding agent interface with handoff patterns for multi-agent workflows.
+
+**Learn more**: See [.github/agents/README.md](.github/agents/README.md) for detailed documentation.
+
+## 📋 Specification-Driven Development
+
+This repository demonstrates **Spec-Driven Development (SDD)** using GitHub Spec Kit - a methodology where specifications are executable artifacts that generate code, not just documentation.
+
+### What is Spec-Driven Development?
+
+Traditional development treats code as truth and specs as documentation. SDD inverts this:
+- **Specifications** become the primary artifact
+- **Code** serves specifications
+- **AI agents** generate implementations from specs
+- **Continuous validation** keeps specs and code synchronized
+
+### GitHub Spec Kit
+
+[GitHub Spec Kit](https://github.com/github/spec-kit) is a Python CLI toolkit that implements SDD workflows:
+
+```bash
+# Install
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Initialize project
+specify init my-project --ai copilot
+
+# SDD Workflow
+./speckit.constitution  # Define project principles
+./speckit.specify       # Define WHAT to build
+./speckit.plan          # Define HOW to implement
+./speckit.tasks         # Break down into tasks
+./speckit.implement     # Generate code
+```
+
+**Learn more**: See [copilot-instructions/github-spec-kit.md](copilot-instructions/github-spec-kit.md) for comprehensive guidance.
+
+## 🖥️ VS Code Workspace with MCP Servers
+
+This repository includes a pre-configured VS Code workspace with three Model Context Protocol (MCP) servers for enhanced GitHub Copilot Chat capabilities:
 
 ### 🎭 Playwright MCP Server
 Browser automation, web scraping, and UI testing capabilities.
@@ -51,107 +98,206 @@ Access GitHub repositories, issues, PRs, and code search directly through Copilo
 ### 📚 Microsoft Docs MCP Server
 Query Microsoft Learn and official documentation for .NET, Azure, and more.
 
-**Learn more:** [WORKSPACE.md](WORKSPACE.md)
-
-## Project Structure
-
-```
-ai-devex/
-├── ChatApp/                    # Main ASP.NET Core application
-│   ├── Components/            # Blazor components
-│   ├── Services/              # Business logic and AI services
-│   └── wwwroot/               # Static files
-├── .devcontainer/             # Dev container configuration
-├── ai-devex.code-workspace    # VS Code workspace with MCP servers
-├── WORKSPACE.md               # Workspace documentation
-├── QUICKSTART.md              # Quick start guide
-└── agents.md                  # AI agent guidelines
-```
-
-## Documentation
-
-- **[QUICKSTART.md](QUICKSTART.md)** - Quick start guide for the workspace and MCP servers
-- **[WORKSPACE.md](WORKSPACE.md)** - Detailed workspace and MCP server documentation  
-- **[agents.md](agents.md)** - Guidelines for AI agents working on this project
-- **[ChatApp/README.md](ChatApp/README.md)** - ChatApp-specific documentation
-
-## Requirements
-
-- **.NET 9.0 SDK** or later
-- **Node.js** (for MCP servers via npx)
-- **VS Code** with recommended extensions
-- **GitHub Personal Access Token** (for GitHub Models and MCP)
-
-## MCP Server Usage Examples
-
-With the workspace open and MCP servers configured, try these in Copilot Chat:
-
-```
-Using Playwright, navigate to example.com and take a screenshot
-
-Using GitHub, show me recent issues in this repository
-
-Using Microsoft Docs, explain ASP.NET Core middleware
-```
-
-## Building and Testing
+### Quick Start with Workspace
 
 ```powershell
-# Build the project
-dotnet build ChatApp/ChatApp.csproj
+# Open the workspace
+code ai-devex.code-workspace
 
-# Run with hot reload
-dotnet watch run --project ChatApp
+# Configure GitHub token for MCP
+$env:GITHUB_TOKEN = "ghp_your_token"
 
-# Run in VS Code
-Press F5 (Debug → Start Debugging)
+# Start using MCP servers in Copilot Chat
+# Examples:
+# - Using Playwright, navigate to example.com and take a screenshot
+# - Using GitHub, show me recent issues in this repository
+# - Using Microsoft Docs, explain ASP.NET Core middleware
 ```
 
-## Development Environment
+**Learn more**: See [WORKSPACE.md](WORKSPACE.md) and [QUICKSTART.md](QUICKSTART.md) for detailed documentation.
+
+## 💬 AI Chat Application
+
+The `ChatApp` directory contains a sample AI chat application built with:
+- **Framework**: ASP.NET Core (.NET 9.0)
+- **AI Provider**: GitHub Models (via OpenAI API)
+- **Vector Store**: Custom JSON-based implementation
+- **Database**: SQLite (for ingestion cache)
+- **UI**: Blazor Server with Razor Components
+
+### Running the Chat App
+
+```powershell
+# Set up GitHub Models token
+dotnet user-secrets set GitHubModels:Token YOUR-TOKEN --project ChatApp
+
+# Build and run
+dotnet build
+dotnet run --project ChatApp
+```
+
+**Learn more**: See [ChatApp/README.md](ChatApp/README.md)
+
+## 🐳 Development Environment
 
 ### Dev Container
 
-This project includes a dev container configuration with:
-- .NET 9.0 SDK
-- PowerShell Core
-- Azure CLI
-- GitHub CLI
-- Docker-in-Docker
+The repository includes a fully-featured dev container with:
+- **Base**: Microsoft Universal Image
+- **Features**: Docker-in-Docker, Azure Developer CLI, GitHub CLI, PowerShell Core, .NET 10
+- **Extensions**: GitHub Copilot, AI Toolkit, Prompty, Markdown Lint
+- **Tools**: uv (Python), .NET Aspire CLI, GitHub Spec Kit
 
-Open in dev container: Command Palette → "Dev Containers: Reopen in Container"
+#### Using with GitHub Codespaces
+1. Click "Code" → "Create codespace on main"
+2. Wait for container initialization
+3. All tools pre-installed and ready
 
-### VS Code Workspace
+#### Using with VS Code Dev Containers
+1. Install [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+2. Open repository in VS Code
+3. Press F1 → "Dev Containers: Reopen in Container"
 
-The workspace includes:
-- Pre-configured MCP servers for Copilot Chat
-- Build and debug tasks
-- Recommended extensions
-- Optimized .NET settings
+**Learn more**: See [.devcontainer/README.md](.devcontainer/README.md)
 
-## Contributing
+## 📚 Documentation
 
-When contributing to this project:
+### For Developers
+- **[agents.md](agents.md)** - AI agent development guidelines
+- **[.github/agents/](/.github/agents/)** - Agent documentation and architecture
+- **[copilot-instructions/](copilot-instructions/)** - GitHub Copilot instruction prompts
+- **[WORKSPACE.md](WORKSPACE.md)** - VS Code workspace and MCP server documentation
+- **[QUICKSTART.md](QUICKSTART.md)** - Quick reference for workspace and MCP servers
 
-1. Follow the guidelines in [agents.md](agents.md)
-2. Use PowerShell Core for CLI commands
-3. Keep dev container in sync with environment changes
-4. Make minimal, focused changes
-5. Test with existing infrastructure
+### For Agents (AI)
+- **[.github/agents/QUICK_REFERENCE.md](.github/agents/QUICK_REFERENCE.md)** - Quick reference for agents
+- **[.github/agents/ARCHITECTURE.md](.github/agents/ARCHITECTURE.md)** - System architecture
 
-## Security
+## 🚀 Quick Start
 
-- Never commit secrets or tokens to source control
-- Use .NET User Secrets for sensitive configuration
+### For Code Modernization
+```bash
+# Clone repository
+git clone https://github.com/Tyler-R-Kendrick/ai-devex.git
+cd ai-devex
+
+# Open in Codespaces or Dev Container
+
+# Start modernization workflow
+@modernization-planner Analyze our legacy system and create migration plan
+```
+
+### For Specification-Driven Development
+```bash
+# Install Spec Kit
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Create new project
+specify init my-feature --ai copilot
+
+# Follow SDD workflow
+./speckit.constitution
+./speckit.specify
+./speckit.plan
+./speckit.tasks
+./speckit.implement
+```
+
+### For AI Chat Development
+```powershell
+# Set up GitHub Models token
+dotnet user-secrets set GitHubModels:Token YOUR-TOKEN --project ChatApp
+
+# Run application
+dotnet run --project ChatApp
+```
+
+### For Enhanced Copilot Chat with MCP Servers
+```powershell
+# Open workspace
+code ai-devex.code-workspace
+
+# Set GitHub token
+$env:GITHUB_TOKEN = "ghp_your_token"
+
+# Use MCP servers in Copilot Chat
+# Ctrl+I or Cmd+I to open chat
+```
+
+## 🛠️ Technology Stack
+
+- **Languages**: C# (.NET 9/10), Python 3.11+, PowerShell Core
+- **AI Platforms**: GitHub Models, GitHub Copilot, Model Context Protocol (MCP)
+- **Development**: VS Code, GitHub Codespaces, Dev Containers
+- **Tools**: GitHub Spec Kit, .NET Aspire CLI, Azure Developer CLI
+- **Package Managers**: dotnet, uv, npm
+
+## 🤝 Contributing
+
+Contributions are welcome! This repository demonstrates best practices for:
+- AI-assisted development workflows
+- Specification-driven development
+- Custom GitHub Copilot agent creation
+- Development environment standardization
+
+### Adding New Agents
+
+1. Create agent file in `.github/agents/[agent-name].md`
+2. Use YAML frontmatter with `handoffs` field
+3. Document agent responsibilities and capabilities
+4. Update `.github/agents/README.md` with agent information
+
+### Adding Copilot Instructions
+
+1. Create instruction file in `copilot-instructions/[tool-name].md`
+2. Follow format in `copilot-instructions/README.md`
+3. Include version information, examples, and DO/DON'T patterns
+4. Keep timestamp and security status current
+
+## 📖 Best Practices
+
+### Command Line
+- **Prefer PowerShell Core** for cross-platform compatibility
+- Use built-in tools (`dotnet new`, `npm init`) over manual file creation
+
+### Development Environment
+- Keep dev container in sync with development environment
+- Apply changes to both local and container configurations
+
+### Documentation
+- Document user corrections in standardized format
+- Update relevant docs when making changes
+- Include examples and references
+
+### Security
+- Never commit secrets to source control
+- Use `dotnet user-secrets` for sensitive configuration
 - Use environment variables for MCP server tokens
-- Review [WORKSPACE.md](WORKSPACE.md) for security best practices
+- Check dependencies for vulnerabilities before adding
 
-## License
+## 📄 License
 
-See the [LICENSE](LICENSE) file for details.
+This project demonstrates various open-source tools and practices. See individual component licenses:
+- GitHub Spec Kit: [MIT License](https://github.com/github/spec-kit/blob/main/LICENSE)
+- .NET: [MIT License](https://github.com/dotnet/runtime/blob/main/LICENSE.TXT)
 
-## Learn More
+## 🔗 Resources
 
-- [GitHub Models](https://github.com/marketplace/models)
-- [Model Context Protocol](https://spec.modelcontextprotocol.io/)
-- [ASP.NET Core Documentation](https://learn.microsoft.com/aspnet/core)
-- [Blazor Documentation](https://learn.microsoft.com/aspnet/core/blazor)
+- **GitHub Spec Kit**: https://github.com/github/spec-kit
+- **GitHub Models**: https://docs.github.com/github-models
+- **GitHub Copilot**: https://github.com/features/copilot
+- **Model Context Protocol**: https://spec.modelcontextprotocol.io/
+- **.NET Aspire**: https://learn.microsoft.com/dotnet/aspire
+- **Dev Containers**: https://containers.dev
+
+## 🆘 Support
+
+For questions or issues:
+1. Check the [documentation](.github/agents/README.md)
+2. Review [agents.md](agents.md) for guidelines
+3. Open an issue on GitHub
+4. Consult agent-specific documentation in `.github/agents/`
+
+---
+
+**Built with ❤️ using GitHub Copilot and AI-assisted development practices**
