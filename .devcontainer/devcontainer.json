@@ -20,7 +20,7 @@
     }
   },
 
-  "postCreateCommand": "pwsh /workspaces/ai-devex/.devcontainer/setup.ps1",
+  "postCreateCommand": "pwsh ${containerWorkspaceFolder}/.devcontainer/setup.ps1",
 
   "remoteUser": "codespace"
 }
