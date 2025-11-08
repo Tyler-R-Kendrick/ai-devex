@@ -2,7 +2,9 @@
 
 ## System Overview
 
-The agent system consists of 14 specialized agents organized into 4 functional categories. Agents collaborate through explicit handoff patterns to provide comprehensive support for code modernization.
+The agent system consists of 15 specialized agents organized into 4 functional categories. Agents collaborate through explicit YAML handoff patterns to provide comprehensive support for code modernization.
+
+All agents use the official GitHub Copilot handoff format with `handoffs` field in YAML frontmatter, enabling guided multi-agent workflows with control points.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -19,12 +21,13 @@ The agent system consists of 14 specialized agents organized into 4 functional c
          │                      │        │                     │    │
 ┌────────▼────────┐  ┌─────────▼──────┐ │  ┌──────────────┐  │    │
 │  KNOWLEDGE      │  │ SPECIFICATION  │ │  │ ARCHITECTURE │  │    │
-│ MANAGEMENT (3)  │  │    & DOCS (5)  │ │  │  & GUIDANCE  │  │    │
+│ MANAGEMENT (3)  │  │    & DOCS (6)  │ │  │  & GUIDANCE  │  │    │
 │                 │  │                │ │  │      (3)     │  │    │
-│ • Modeler       │  │ • Generator    │ │  │ • Architect  │  │    │
+│ • Modeler       │  │ • Spec Gen     │ │  │ • Architect  │  │    │
 │ • Retriever     │  │ • ADR Gen      │ │  │ • Research   │  │    │
 │ • Generator     │  │ • Tool Docs    │ │  │ • Prompt Eng │  │    │
 │                 │  │ • Deps Docs    │ │  │              │  │    │
+│                 │  │ • Copilot Inst │ │  │              │  │    │
 │                 │  │ • Prompt Eng   │ │  │              │  │    │
 └─────────────────┘  └────────────────┘ │  └──────────────┘  │    │
                                         │                     │    │
@@ -79,9 +82,9 @@ These agents handle information gathering, organization, and generation.
 - Output: New documentation, filled gaps
 - Used by: Agents needing documentation creation
 
-### 3. Specification & Documentation (5 agents)
+### 3. Specification & Documentation (6 agents)
 
-These agents create formal specifications and maintain current documentation.
+These agents create formal specifications, maintain current documentation, and generate Copilot instructions.
 
 **spec-generator**
 - Input: Requirements, information
@@ -95,11 +98,20 @@ These agents create formal specifications and maintain current documentation.
 
 **tool-documentation**
 - Input: Tool name/version
-- Output: Tool docs, Copilot instructions
-- Coordinates with: research, prompt-engineer
+- Output: Tool docs
+- Handoffs to: copilot-instructions, research
 
 **deps-documentation**
 - Input: Dependency name/version
+- Output: Dependency docs, security info
+- Handoffs to: copilot-instructions, research
+
+**copilot-instructions**
+- Input: Documented knowledge (tools, dependencies, patterns)
+- Output: Copilot instruction prompts
+- Used by: tool-documentation, deps-documentation
+
+**prompt-engineer**
 - Output: Dependency docs, security info, Copilot instructions
 - Coordinates with: research, prompt-engineer
 
@@ -398,6 +410,10 @@ Repeat until satisfied
 
 ## Version History
 
+- **v2.1** (2025-11-08): Handoff refactoring with 15 agents
+  - Added copilot-instructions agent
+  - Implemented official YAML handoff pattern in all agents
+  - Enabled guided multi-agent workflows
 - **v2.0** (2025-11-08): Refactored architecture with 14 agents
 - **v1.0** (2025-11-08): Initial 6-agent architecture
 

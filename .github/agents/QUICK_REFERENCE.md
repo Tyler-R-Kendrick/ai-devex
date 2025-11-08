@@ -1,4 +1,4 @@
-# Quick Reference: 14 Custom Agents for Code Modernization
+# Quick Reference: 15 Custom Agents for Code Modernization
 
 ## Agent Quick Lookup
 
@@ -12,8 +12,9 @@
 | **knowledge-generator** | Documentation creation | Fill documentation gaps, elicit requirements |
 | **spec-generator** | Formal specifications | PRDs, BRDs, TRDs, Gherkin, API specs |
 | **adr-generator** | Decision records | Document architectural decisions |
-| **tool-documentation** | Tool knowledge | Document tools, generate Copilot instructions |
-| **deps-documentation** | Dependency management | Track dependencies, security, Copilot instructions |
+| **tool-documentation** | Tool knowledge | Document tools, coordinate with copilot-instructions |
+| **deps-documentation** | Dependency management | Track dependencies, security, coordinate with copilot-instructions |
+| **copilot-instructions** | Instruction generation | Generate Copilot instruction prompts |
 | **prompt-engineer** | Prompt optimization | Create effective prompts for AI tasks |
 | **architect** | Architecture expertise | Pattern recommendations, migration guidance |
 | **research** | Information gathering | Research with fallback sources, quality evaluation |
@@ -314,10 +315,10 @@ adr-generator (document)
 
 ## Version Info
 
-- **Version**: 2.0
-- **Agents**: 14 total
+- **Version**: 2.1
+- **Agents**: 15 total
 - **Last Updated**: 2025-11-08
-- **Structure**: 3 modernization orchestration, 3 knowledge management, 5 specification/documentation, 3 architecture/guidance
+- **Structure**: 3 modernization orchestration, 3 knowledge management, 6 specification/documentation, 3 architecture/guidance
 
 ---
 

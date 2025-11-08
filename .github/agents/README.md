@@ -1,10 +1,12 @@
 # Custom GitHub Copilot Agents for AI-Driven Code Modernization
 
-This directory contains 14 specialized custom GitHub Copilot agents designed to facilitate comprehensive AI-driven code modernization projects. These agents work together as a coordinated team to analyze legacy systems, plan modernization strategies, and execute transformations.
+This directory contains 15 specialized custom GitHub Copilot agents designed to facilitate comprehensive AI-driven code modernization projects. These agents work together as a coordinated team to analyze legacy systems, plan modernization strategies, and execute transformations.
 
 ## Overview
 
 The agents follow a modular, collaborative approach where each agent has specific expertise and responsibilities. Together, they provide end-to-end support for code modernization initiatives, from legacy analysis to target state definition, strategy planning, and execution.
+
+All agents use the official GitHub Copilot handoff pattern with YAML frontmatter, enabling guided multi-agent workflows with explicit control points.
 
 ## Agent Categories
 
@@ -14,8 +16,8 @@ Coordinate the overall modernization process from analysis to execution
 ### Knowledge Management (3 agents)
 Handle information gathering, organization, and generation
 
-### Specification & Documentation (5 agents)
-Create formal specifications and maintain current documentation
+### Specification & Documentation (6 agents)
+Create formal specifications, maintain current documentation, and generate Copilot instructions
 
 ### Architecture & Technical Guidance (3 agents)
 Provide expert guidance on architecture patterns, research, and prompting
@@ -212,7 +214,25 @@ Provide expert guidance on architecture patterns, research, and prompting
 
 ---
 
-#### 11. prompt-engineer
+#### 11. copilot-instructions
+**Purpose**: Generates GitHub Copilot instruction prompts from documented knowledge
+
+**Expertise**:
+- Synthesizing knowledge into actionable Copilot instructions
+- Structuring prompts for effective in-context learning
+- Including version-specific guidance and examples
+- Providing clear DO/DON'T patterns with rationale
+
+**Use when**: Need to generate Copilot instruction prompts from tool/dependency documentation
+
+**Example**:
+```
+@copilot-instructions Generate Copilot instruction prompts for Vite v5 based on the documented usage patterns and best practices.
+```
+
+---
+
+#### 12. prompt-engineer
 **Purpose**: Implements best practices for prompt engineering
 
 **Expertise**:
@@ -232,7 +252,7 @@ Provide expert guidance on architecture patterns, research, and prompting
 
 ### Architecture & Technical Guidance
 
-#### 12. architect
+#### 13. architect
 **Purpose**: Expert architect providing pattern guidance and migration paths
 
 **Expertise**:
@@ -250,7 +270,7 @@ Provide expert guidance on architecture patterns, research, and prompting
 
 ---
 
-#### 13. research
+#### 14. research
 **Purpose**: Conducts research using fallback sources with quality evaluation
 
 **Expertise**:
@@ -268,7 +288,7 @@ Provide expert guidance on architecture patterns, research, and prompting
 
 ---
 
-#### 14. setup-planner
+#### 15. setup-planner
 **Purpose**: Analyzes tools and plans installation/configuration
 
 **Expertise**:
@@ -394,6 +414,7 @@ These agents are available through:
 | adr-generator | ❌ | ❌ | ❌ | ❌ | ✅ Primary |
 | tool-documentation | ✅ | ❌ | ❌ | ❌ | ✅ Primary |
 | deps-documentation | ✅ | ❌ | ❌ | ❌ | ✅ Primary |
+| copilot-instructions | ❌ | ✅ Primary | ❌ | ❌ | ✅ Primary |
 | prompt-engineer | ❌ | ✅ Primary | ❌ | ❌ | ✅ |
 | architect | ✅ | ✅ Primary | ✅ | ❌ | ✅ |
 | research | ✅ Primary | ❌ | ❌ | ❌ | ✅ |
@@ -401,6 +422,12 @@ These agents are available through:
 
 ## Version History
 
+- **v2.1** (2025-11-08): Handoff refactoring
+  - Added copilot-instructions agent (15 agents total)
+  - Implemented official YAML handoff pattern in all agents
+  - Separated Copilot instruction generation into dedicated agent
+  - Added handoff buttons for guided multi-agent workflows
+  
 - **v2.0** (2025-11-08): Major refactoring based on feedback
   - Split modernization-planner into 3 focused agents
   - Added 6 new specialized agents
