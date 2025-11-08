@@ -83,7 +83,7 @@ To customize the dev container:
 
 If the post-create script fails:
 1. Open a new terminal in the dev container
-2. Run manually: `pwsh /workspaces/ai-devex/.devcontainer/setup.ps1`
+2. Run manually: `pwsh .devcontainer/setup.ps1` (or `pwsh /workspaces/<repository-name>/.devcontainer/setup.ps1` if needed)
 3. Check the output for specific error messages
 
 For feature-specific issues, refer to:
