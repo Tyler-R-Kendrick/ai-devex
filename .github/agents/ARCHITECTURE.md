@@ -111,9 +111,6 @@ These agents create formal specifications, maintain current documentation, and g
 - Output: Copilot instruction prompts
 - Used by: tool-documentation, deps-documentation
 
-**prompt-engineer**
-- Output: Dependency docs, security info, Copilot instructions
-- Coordinates with: research, prompt-engineer
 
 **prompt-engineer**
 - Input: Task requirements
