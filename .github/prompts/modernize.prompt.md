@@ -16,6 +16,11 @@ Analyze the provided source location (local file path or git URL), assess the cu
 
 ### 1. Source Location Handling
 
+**If no argument is provided:**
+- Use the current workspace root: `${workspaceFolder}`
+- This is the default behavior - analyze the currently open project
+- Proceed to analysis
+
 **If the user provides a local file path:**
 - Verify the path exists and is accessible
 - Set the working directory to the provided path
@@ -28,6 +33,7 @@ Analyze the provided source location (local file path or git URL), assess the cu
 - Proceed to analysis
 
 **Supported formats:**
+- No argument (default): Uses `${workspaceFolder}` - current workspace
 - Local paths: `/path/to/codebase`, `./relative/path`, `C:\Windows\Path`
 - Git HTTPS: `https://github.com/user/repo.git`
 - Git SSH: `git@github.com:user/repo.git`
@@ -83,6 +89,18 @@ Provide the user with:
 ## Usage Example
 
 ```
+Example 1 - No argument (uses current workspace):
+User types: /modernize
+
+Your workflow:
+1. Use workspace root: ${workspaceFolder}
+2. Analyze: Detect it's a .NET 6 application
+3. Coordinate: Handoff to @modernization-legacy-modeler for detailed analysis
+4. Design: Handoff to @modernization-desired-state-modeler for target design
+5. Plan: Handoff to @modernization-planner for migration strategy
+6. Present: Share comprehensive modernization plan with user
+
+Example 2 - With git URL:
 User provides: https://github.com/example/legacy-app.git
 
 Your workflow:
@@ -129,8 +147,12 @@ You can use these variables in your prompts:
 
 In VS Code or JetBrains IDEs with GitHub Copilot:
 1. Open Copilot Chat
-2. Type: `/modernize` followed by a source location
-3. Example: `/modernize /path/to/legacy/codebase`
-4. Example: `/modernize https://github.com/org/legacy-repo.git`
+2. Type: `/modernize` optionally followed by a source location
+3. Example (current workspace): `/modernize`
+4. Example (local path): `/modernize /path/to/legacy/codebase`
+5. Example (git URL): `/modernize https://github.com/org/legacy-repo.git`
+
+**Default Behavior:**
+If no argument is provided, the prompt will analyze the current workspace root (`${workspaceFolder}`). This makes it easy to quickly start modernization planning for the project you're currently working on.
 
 The modernization planning process will begin automatically.

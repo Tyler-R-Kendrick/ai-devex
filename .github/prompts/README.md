@@ -16,13 +16,16 @@ Prompt files are markdown-based instructions stored in `.github/prompts/` that g
 
 **Usage:**
 ```
+/modernize
 /modernize /path/to/legacy/codebase
 /modernize https://github.com/org/legacy-repo.git
 /modernize https://github.com/org/legacy-repo.git#v1.2.3
 ```
 
+**Default Behavior:** If no argument is provided, analyzes the current workspace root.
+
 **What it does:**
-1. Validates and prepares the source location (local path or git URL)
+1. Validates and prepares the source location (defaults to current workspace if not specified)
 2. Performs initial technology stack assessment
 3. Coordinates with `@modernization-legacy-modeler` for detailed analysis
 4. Coordinates with `@modernization-desired-state-modeler` for target design
@@ -30,6 +33,7 @@ Prompt files are markdown-based instructions stored in `.github/prompts/` that g
 6. Presents a complete modernization plan
 
 **Supported source formats:**
+- No argument (default): Uses current workspace root
 - Local file paths: `/path/to/codebase`, `./relative/path`, `C:\Windows\Path`
 - Git HTTPS URLs: `https://github.com/user/repo.git`
 - Git SSH URLs: `git@github.com:user/repo.git`
@@ -43,13 +47,13 @@ Prompt files are markdown-based instructions stored in `.github/prompts/` that g
 1. Open GitHub Copilot Chat (Ctrl+Alt+I or Cmd+Alt+I)
 2. Type `/` to see available prompts
 3. Select or type the prompt name (e.g., `/modernize`)
-4. Provide any required parameters
+4. Optionally provide parameters (if none provided, uses current workspace)
 
 ### In JetBrains IDEs
 
 1. Open GitHub Copilot Chat
 2. Type `/` followed by the prompt name
-3. Provide any required parameters
+3. Optionally provide parameters (if none provided, uses current workspace)
 
 ## Prompt File Format
 
