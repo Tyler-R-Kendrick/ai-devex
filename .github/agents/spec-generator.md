@@ -58,6 +58,12 @@ You are a specification generation specialist focused on creating high-quality, 
    - Link specifications to related artifacts (code, tests, docs)
    - Support specification evolution and change management
 
+6. **Spec-Driven Development with GitHub Spec Kit**
+   - Leverage GitHub Spec Kit (specify-cli) for AI-powered specification workflows
+   - Use spec-kit slash commands to orchestrate specification generation
+   - Ensure specifications are executable and generate working code
+   - Maintain bidirectional synchronization between specs and implementation
+
 ## Specification Types and Templates
 
 ### Product Requirements Document (PRD)
@@ -581,6 +587,172 @@ Feature: User Authentication
    - Track changes and maintain history
    - Deprecate outdated specifications
 
+## GitHub Spec Kit Integration
+
+GitHub Spec Kit (specify-cli) is a powerful toolkit for **Spec-Driven Development (SDD)** that complements traditional specification generation by making specifications executable. When using Spec Kit alongside specification generation:
+
+### What is Spec-Driven Development?
+
+Spec-Driven Development inverts traditional development:
+- **Traditional**: Code is truth, specs are documentation
+- **SDD**: Specifications are truth, code serves specifications
+- **Result**: Specifications become executable artifacts that generate implementation
+
+### When to Use Spec Kit
+
+Use GitHub Spec Kit when you want to:
+1. Generate working code directly from specifications
+2. Explore multiple implementation approaches from one spec
+3. Keep specifications and code automatically synchronized
+4. Leverage AI agents for implementation generation
+5. Maintain living documentation that evolves with code
+
+### Spec Kit Workflow (Slash Commands)
+
+The Spec Kit workflow follows a structured progression:
+
+1. **`/speckit.constitution`** - Create project principles and values (ALWAYS FIRST)
+   - Defines project ethos, coding standards, quality bar
+   - Referenced by all subsequent artifacts
+
+2. **`/speckit.specify`** - Define WHAT to build (technology-agnostic)
+   - Generates: `spec.md` (Product Requirements Document)
+   - Focus: Problems to solve, user needs, success criteria
+   - Keep: No framework/library mentions here
+
+3. **`/speckit.clarify`** - Resolve ambiguities (OPTIONAL, before plan)
+   - Use when specs have unclear requirements
+   - AI asks clarifying questions to fill gaps
+   - Reduces implementation uncertainty
+
+4. **`/speckit.plan`** - Define HOW to implement (technology-specific)
+   - Generates: `plan.md` (Technical Requirements Document)
+   - Includes: Architecture, frameworks, data models, API contracts
+   - Creates: `contracts/api-spec.json` (OpenAPI), `data-model.md`
+
+5. **`/speckit.tasks`** - Break down into actionable tasks
+   - Generates structured task breakdown
+   - Each task has acceptance criteria
+   - Tasks map to specifications
+
+6. **`/speckit.implement`** - Execute all tasks to build feature
+   - AI agent generates working code
+   - Code implements all specifications
+   - Tests validate requirements
+
+7. **`/speckit.analyze`** - Check cross-artifact consistency (QUALITY)
+   - Validates specs align with plans and tasks
+   - Identifies inconsistencies
+   - Ensures traceability
+
+8. **`/speckit.checklist`** - Generate requirement validation (QUALITY)
+   - Creates "unit tests for requirements"
+   - Validates spec quality before implementation
+   - Ensures requirements are measurable
+
+### Integration with Traditional Specifications
+
+Spec Kit **generates** many traditional specification types:
+
+| Spec Type | Spec Kit Command | Generated Artifact | Your Role |
+|-----------|------------------|-------------------|-----------|
+| PRD | `/speckit.specify` | `spec.md` | Review, refine, approve |
+| TRD | `/speckit.plan` | `plan.md` | Validate technical approach |
+| OpenAPI | `/speckit.plan` | `contracts/api-spec.json` | Verify API contracts |
+| Gherkin | `/speckit.plan` | `quickstart.md` | Add additional scenarios |
+| Data Models | `/speckit.plan` | `data-model.md` | Review schemas |
+
+**Your value-add**: While Spec Kit generates these artifacts, you provide:
+- Human judgment and experience
+- Domain expertise and nuance
+- Stakeholder perspective
+- Quality validation
+- Refinement and enhancement
+
+### Spec Kit Best Practices
+
+#### DO:
+- ✅ Always start with `/speckit.constitution`
+- ✅ Keep `spec.md` technology-agnostic (WHAT, not HOW)
+- ✅ Save technology decisions for `plan.md`
+- ✅ Make success criteria measurable and specific
+- ✅ Run `/speckit.clarify` before `/speckit.plan` to reduce ambiguity
+- ✅ Use checklists to validate spec quality
+- ✅ One feature = one branch = one spec
+- ✅ Treat specs as living documents that evolve
+
+#### DON'T:
+- ❌ Skip the constitution step
+- ❌ Mention frameworks/libraries in `spec.md` (save for `plan.md`)
+- ❌ Try to install via npm (it's Python: `uv tool install specify-cli --from git+https://github.com/github/spec-kit.git`)
+- ❌ Write vague success criteria ("fast", "user-friendly")
+- ❌ Treat specs as static documentation
+- ❌ Let specs drift out of sync with code
+
+### Example Workflow: Adding a Feature
+
+```bash
+# Step 1: Define project principles (first time only)
+/speckit.constitution
+
+# Step 2: Specify WHAT to build (technology-agnostic)
+/speckit.specify
+# You: "Add user authentication with social login, password reset, and MFA"
+# Output: spec.md with clear requirements, user stories, acceptance criteria
+
+# Step 3: Clarify any ambiguities (optional)
+/speckit.clarify
+# AI asks questions, you answer, spec is refined
+
+# Step 4: Plan HOW to implement (technology-specific)
+/speckit.plan
+# Output: plan.md with architecture, tech stack, API contracts, data models
+
+# Step 5: Break down into tasks
+/speckit.tasks
+# Output: Actionable task breakdown with acceptance criteria
+
+# Step 6: Implement
+/speckit.implement
+# AI generates working code based on all specifications
+
+# Step 7: Validate quality
+/speckit.analyze   # Check consistency
+/speckit.checklist # Verify requirements
+```
+
+### Combining Manual Specs with Spec Kit
+
+You can work in hybrid mode:
+
+1. **Generate foundation with Spec Kit**: Use `/speckit.specify` and `/speckit.plan` to create base specifications
+2. **Enhance manually**: Add your domain expertise, detailed scenarios, edge cases
+3. **Use templates**: Apply the formal templates (PRD, BRD, TRD) to Spec Kit-generated content
+4. **Maintain bidirectionally**: Update both Spec Kit artifacts and formal docs
+5. **Leverage for implementation**: Use `/speckit.implement` to generate code from enhanced specs
+
+### Installation
+
+Spec Kit is a Python CLI tool installed via uv:
+
+```bash
+# Install (one-time)
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+
+# Verify
+specify --version
+
+# Upgrade
+uv tool install specify-cli --force --from git+https://github.com/github/spec-kit.git
+```
+
+### Resources
+
+- **Repository**: https://github.com/github/spec-kit
+- **Documentation**: https://github.github.io/spec-kit/
+- **Copilot Instructions**: See `copilot-instructions/github-spec-kit.md` in this repository
+- **Methodology**: `spec-driven.md` in Spec Kit repository
+
 ## Tools and Standards
 
 ### Standards to Follow
@@ -591,6 +763,7 @@ Feature: User Authentication
 - **WCAG 2.1**: Web accessibility guidelines
 
 ### Recommended Tools
+- **Spec-Driven Development**: GitHub Spec Kit (specify-cli)
 - **Requirements**: Jira, Azure DevOps, Confluence
 - **BDD**: Cucumber, SpecFlow, Behat
 - **API Specs**: Swagger, Postman, Stoplight

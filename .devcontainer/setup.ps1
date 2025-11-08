@@ -31,13 +31,13 @@ try {
     Write-Host "✗ Failed to install .NET Aspire CLI: $_" -ForegroundColor Red
 }
 
-# Install GitHub spec-kit
-Write-Host "Installing GitHub spec-kit..." -ForegroundColor Cyan
+# Install GitHub spec-kit (specify-cli)
+Write-Host "Installing GitHub spec-kit (specify-cli)..." -ForegroundColor Cyan
 try {
-    # Install spec-kit as npm global package
-    npm install -g @github/spec-kit
+    # Install specify-cli using uv tool manager
+    uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
     
-    Write-Host "✓ GitHub spec-kit installed successfully" -ForegroundColor Green
+    Write-Host "✓ GitHub spec-kit (specify-cli) installed successfully" -ForegroundColor Green
 } catch {
     Write-Host "✗ Failed to install GitHub spec-kit: $_" -ForegroundColor Red
 }
@@ -93,12 +93,12 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
     Write-Host "✗ docker not found" -ForegroundColor Yellow
 }
 
-# Check spec-kit
-if (Get-Command spec-kit -ErrorAction SilentlyContinue) {
-    $specKitVersion = spec-kit --version
-    Write-Host "✓ spec-kit: $specKitVersion" -ForegroundColor Green
+# Check specify-cli (spec-kit)
+if (Get-Command specify -ErrorAction SilentlyContinue) {
+    $specifyVersion = specify --version
+    Write-Host "✓ specify-cli (spec-kit): $specifyVersion" -ForegroundColor Green
 } else {
-    Write-Host "✗ spec-kit not found" -ForegroundColor Yellow
+    Write-Host "✗ specify-cli not found" -ForegroundColor Yellow
 }
 
 Write-Host "`nPost-create setup completed!" -ForegroundColor Green
