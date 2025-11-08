@@ -42,7 +42,7 @@ dotnet user-secrets set GitHubModels:Token YOUR-TOKEN
 
 ## Using MCP Servers in Copilot Chat
 
-Once configured, open Copilot Chat (Ctrl+Alt+I or Cmd+Option+I) and try:
+Once configured, open Copilot Chat (Ctrl+I or Cmd+I on Mac) and try:
 
 ### Playwright Examples
 ```
