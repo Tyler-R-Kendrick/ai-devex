@@ -23,7 +23,7 @@ The following extensions are automatically installed:
 ### Additional Tools (Installed via Post-Create Script)
 - **uv** - Fast Python package installer and resolver
 - **.NET Aspire CLI** - Cloud-native application development tool for .NET, with support for orchestrating containers and services in multiple languages
-- **GitHub spec-kit** - OpenAPI specification tools and utilities
+- **GitHub Spec Kit (specify-cli)** - Specification-driven development toolkit for AI-powered code generation
 
 ## Usage
 
@@ -44,7 +44,7 @@ The following extensions are automatically installed:
 The dev container runs a PowerShell script (`.devcontainer/setup.ps1`) after creation that:
 1. Installs the uv package manager from astral.sh
 2. Installs the .NET Aspire CLI as a global tool
-3. Installs GitHub spec-kit for OpenAPI specifications
+3. Installs GitHub Spec Kit (specify-cli) for specification-driven development
 4. Verifies all tools are correctly installed
 
 You can monitor the setup progress in the terminal output.
@@ -67,8 +67,8 @@ azd version
 # Check GitHub CLI
 gh --version
 
-# Check spec-kit
-spec-kit --version
+# Check spec-kit (specify-cli)
+specify --version
 
 # Check Docker
 docker --version

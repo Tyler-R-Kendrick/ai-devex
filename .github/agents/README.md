@@ -396,9 +396,78 @@ Agents are designed to hand off to each other:
 ## Integration with GitHub Copilot
 
 These agents are available through:
-- **GitHub CLI**: Use `gh copilot` with `@agent-name`
+- **GitHub Copilot Coding Agent**: Full autonomous execution with handoffs
+- **GitHub Copilot Agent Mode**: Conversational guidance and suggestions
+- **GitHub CLI**: Use `gh copilot` with `@agent-name` (where supported)
+- **VS Code**: Through Copilot chat panel (when supported)
 - **GitHub Web Interface**: In Copilot chat
-- **VS Code** (when supported): Through Copilot chat panel
+
+All agents work in both **Coding Agent** and **Agent Mode** contexts.
+
+## Integration with GitHub Spec Kit
+
+These agents complement [GitHub Spec Kit](https://github.com/github/spec-kit) for Spec-Driven Development (SDD):
+
+### What is Spec Kit?
+
+GitHub Spec Kit is a toolkit for **Spec-Driven Development** where specifications are executable artifacts that generate code. Install with:
+```bash
+uv tool install specify-cli --from git+https://github.com/github/spec-kit.git
+```
+
+### How Agents and Spec Kit Work Together
+
+| Spec Kit Command | Complementary Agent | Purpose |
+|-----------------|---------------------|---------|
+| `/speckit.constitution` | prompt-engineer | Craft effective project principles |
+| `/speckit.specify` | spec-generator, knowledge-generator | Create comprehensive PRDs |
+| `/speckit.clarify` | knowledge-generator | Resolve ambiguities through elicitation |
+| `/speckit.plan` | architect, modernization-desired-state-modeler | Define technical architecture |
+| `/speckit.tasks` | modernization-planner | Break down complex migrations |
+| `/speckit.implement` | (AI generates code) | - |
+| `/speckit.analyze` | knowledge-retriever | Cross-reference artifacts |
+| `/speckit.checklist` | spec-generator | Validate requirement quality |
+
+### Workflow: Agents + Spec Kit
+
+**For new features:**
+```bash
+# 1. Use agents for expert guidance
+@spec-generator Create a PRD for user authentication with OAuth
+
+# 2. Initialize Spec Kit project
+specify init auth-feature --ai copilot
+
+# 3. Use Spec Kit workflow with agent support
+/speckit.constitution  # + @prompt-engineer for principles
+/speckit.specify       # Based on agent-generated PRD
+/speckit.plan          # + @architect for pattern validation
+/speckit.implement     # AI generates code
+
+# 4. Document decisions
+@adr-generator Document OAuth provider choice
+```
+
+**For modernization:**
+```bash
+# 1. Analyze legacy system
+@modernization-legacy-modeler Analyze our PHP monolith
+
+# 2. Define target state
+@modernization-desired-state-modeler Design microservices architecture
+
+# 3. Create migration plan
+@modernization-planner Develop migration strategy
+
+# 4. Use Spec Kit for implementation
+specify init migration --ai copilot
+/speckit.specify       # Based on modernization plan
+/speckit.plan          # Technical migration approach
+/speckit.tasks         # Phase-by-phase breakdown
+/speckit.implement     # Generate migration code
+```
+
+**Learn more**: See `copilot-instructions/github-spec-kit.md` for comprehensive guidance.
 
 ## Agent Capabilities Summary
 
