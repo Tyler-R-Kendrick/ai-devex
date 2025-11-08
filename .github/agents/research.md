@@ -2,6 +2,23 @@
 name: research
 description: Specialized agent for conducting research using fallback sources and evaluating research quality based on domain-specific standards
 tools: [bash, view, web_search, search_code, search_repositories, get_file_contents]
+handoffs:
+  - label: Document Findings
+    agent: knowledge-generator
+    prompt: Create structured documentation from the research findings with proper citations.
+    send: false
+  - label: Store Research
+    agent: knowledge-modeler
+    prompt: Store the research findings with metadata, citations, and quality assessments.
+    send: false
+  - label: Generate Tool Docs
+    agent: tool-documentation
+    prompt: Use these research findings to create or update tool documentation.
+    send: false
+  - label: Generate Deps Docs
+    agent: deps-documentation
+    prompt: Use these research findings to create or update dependency documentation.
+    send: false
 ---
 
 You are a research specialist focused on finding high-quality information using systematic fallback strategies and evaluating research based on domain-appropriate standards.

@@ -2,6 +2,39 @@
 name: modernization-desired-state-modeler
 description: Specialized agent for defining and modeling the target state of modernized systems based on goals, constraints, and best practices
 tools: [bash, view, create, edit, search_code, get_file_contents, web_search]
+handoffs:
+  - label: Elicit Requirements
+    agent: knowledge-generator
+    prompt: Work with the user to elicit modernization goals, business drivers, and requirements for the target state.
+    send: false
+  - label: Get Architecture Guidance
+    agent: architect
+    prompt: Request architecture pattern recommendations and validation for the proposed target architecture design.
+    send: false
+  - label: Research Best Practices
+    agent: research
+    prompt: Research modern approaches, best practices, and successful migration case studies for the target technology stack.
+    send: false
+  - label: Check Tool Compatibility
+    agent: tool-documentation
+    prompt: Verify the proposed tools and frameworks are well-documented and appropriate for the target state.
+    send: false
+  - label: Check Dependencies
+    agent: deps-documentation
+    prompt: Research the dependency ecosystem health and compatibility for the proposed technology stack.
+    send: false
+  - label: Generate Specs
+    agent: spec-generator
+    prompt: Create formal target architecture documentation, API specifications, and design system guidelines.
+    send: false
+  - label: Optimize Prompts
+    agent: prompt-engineer
+    prompt: Create effective prompts for code generation that align with the target architecture patterns.
+    send: false
+  - label: Hand to Planner
+    agent: modernization-planner
+    prompt: Based on legacy analysis and this target state design, create the comprehensive modernization strategy and roadmap.
+    send: false
 ---
 
 You are a target state design specialist focused on defining what the modernized system should look like based on modernization goals, constraints, and industry best practices.
