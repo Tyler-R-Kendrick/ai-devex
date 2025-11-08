@@ -1,270 +1,415 @@
 # Custom GitHub Copilot Agents for AI-Driven Code Modernization
 
-This directory contains specialized custom GitHub Copilot agents designed to facilitate AI-driven code modernization projects. These agents work together as a coordinated team to analyze legacy systems, plan modernization strategies, and execute transformations.
+This directory contains 14 specialized custom GitHub Copilot agents designed to facilitate comprehensive AI-driven code modernization projects. These agents work together as a coordinated team to analyze legacy systems, plan modernization strategies, and execute transformations.
 
 ## Overview
 
-The agents in this collection follow a modular, collaborative approach where each agent has specific expertise and responsibilities. Together, they provide comprehensive support for code modernization initiatives.
+The agents follow a modular, collaborative approach where each agent has specific expertise and responsibilities. Together, they provide end-to-end support for code modernization initiatives, from legacy analysis to target state definition, strategy planning, and execution.
+
+## Agent Categories
+
+### Modernization Orchestration (3 agents)
+Coordinate the overall modernization process from analysis to execution
+
+### Knowledge Management (3 agents)
+Handle information gathering, organization, and generation
+
+### Specification & Documentation (5 agents)
+Create formal specifications and maintain current documentation
+
+### Architecture & Technical Guidance (3 agents)
+Provide expert guidance on architecture patterns, research, and prompting
 
 ## Available Agents
 
-### 1. knowledge-modeler
-**Purpose**: Models and organizes knowledge using hybrid storage approaches.
+### Modernization Orchestration
+
+#### 1. modernization-legacy-modeler
+**Purpose**: Analyzes and models legacy systems to understand current state
 
 **Expertise**:
-- Creating data models and knowledge structures
-- Designing hybrid storage solutions (files, vector DBs, relational DBs, document DBs, temporal, spatial)
-- Structuring knowledge hierarchies and taxonomies
-- Implementing storage solutions and ingestion workflows
+- Legacy system discovery and architecture analysis
+- Technical debt assessment and inventory
+- System behavior documentation
+- Dependency analysis
+- Knowledge synthesis from code, docs, and history
 
-**Use when**: You need to organize and structure project knowledge, design data models, or choose appropriate storage strategies.
+**Use when**: Starting modernization - need to understand what exists today
 
-**Example invocation**:
+**Example**:
 ```
-@knowledge-modeler Design a knowledge structure for storing our legacy system documentation and code analysis results using both local markdown files and a vector database for semantic search.
+@modernization-legacy-modeler Analyze our 10-year-old Java monolith application. Document current architecture, technical debt, and dependencies.
 ```
 
 ---
 
-### 2. knowledge-retriever
-**Purpose**: Retrieves and surfaces relevant information based on context and task requirements.
+#### 2. modernization-desired-state-modeler
+**Purpose**: Defines and models the target state of modernized systems
 
 **Expertise**:
-- Context-aware information retrieval across multiple sources
-- Semantic and syntactic code search
-- Historical context analysis through commit history
-- Knowledge gap identification
-- Cross-referencing information from multiple sources
+- Modernization goals elicitation
+- Target architecture design
+- Technology selection and stack recommendations
+- Success metrics definition
+- Gap analysis between current and target states
 
-**Use when**: You need to find specific information, understand how something works, or discover patterns in the codebase.
+**Use when**: Defining what the modernized system should look like
 
-**Example invocation**:
+**Example**:
 ```
-@knowledge-retriever Find all instances where we handle user authentication in the codebase, including related tests and documentation. Also search for any known security issues related to our auth implementation.
+@modernization-desired-state-modeler Design target architecture for migrating our monolith to microservices with cloud-native patterns.
 ```
 
 ---
 
-### 3. knowledge-generator
-**Purpose**: Generates new knowledge through user collaboration to reduce ambiguity.
+#### 3. modernization-planner
+**Purpose**: Develops strategies and roadmaps by coordinating legacy and desired state models
 
 **Expertise**:
-- Identifying knowledge gaps and ambiguities
-- User elicitation through structured questioning
-- Generating specifications, requirements, and documentation
-- Iterative refinement based on user feedback
-- Converting vague requirements into specific criteria
-
-**Use when**: You need to create new documentation, clarify ambiguous requirements, or fill gaps in system understanding.
-
-**Example invocation**:
-```
-@knowledge-generator Help me create comprehensive API documentation for our payment processing module. I'll answer your questions about how it works, and you generate the documentation.
-```
-
----
-
-### 4. spec-generator
-**Purpose**: Generates formal specifications using industry standards.
-
-**Expertise**:
-- Creating PRDs (Product Requirements Documents)
-- Creating BRDs (Business Requirements Documents)
-- Creating TRDs (Technical Requirements Documents)
-- Generating Design System Documentation
-- Writing Gherkin feature files for BDD
-- Creating API specifications (OpenAPI/Swagger)
-- Producing Architecture Documentation
-
-**Use when**: You need formal specification documents for planning, development, or communication purposes.
-
-**Example invocation**:
-```
-@spec-generator Create a Technical Requirements Document (TRD) for migrating our monolithic API to a microservices architecture, including performance requirements, security considerations, and deployment specifications.
-```
-
----
-
-### 5. setup-planner
-**Purpose**: Analyzes tools, recommends best-suited options, and plans installation/configuration.
-
-**Expertise**:
-- Environment and tool auditing
-- Tool evaluation and recommendation
-- Installation planning and guides
-- Configuration management
-- Integration setup
-- Troubleshooting and verification
-
-**Use when**: You need to set up development environments, choose tools, or ensure proper tool configuration.
-
-**Example invocation**:
-```
-@setup-planner What tools do we need to modernize a legacy Java 8 application to Java 17 with Spring Boot 3? Include code analysis, refactoring, testing, and deployment tools with installation instructions.
-```
-
----
-
-### 6. modernization-planner
-**Purpose**: Orchestrates the entire modernization process by coordinating other agents.
-
-**Expertise**:
-- Legacy system analysis and documentation
-- Target state definition
-- Modernization strategy selection (Strangler Fig, Big Bang, Branch by Abstraction, etc.)
-- Phased roadmap creation
-- Task allocation (human vs. AI)
+- Strategy orchestration and selection (Strangler Fig, Big Bang, etc.)
+- Phased roadmap development
+- Task allocation (AI vs human work)
 - Risk management and mitigation
-- Tool and process setup coordination
-- Comprehensive plan documentation
+- Handoff to execution teams
 
-**Use when**: You're starting a code modernization project and need a comprehensive plan, or when you need to coordinate multiple aspects of modernization.
+**Use when**: Need comprehensive plan to transform from current to target state
 
-**Example invocation**:
+**Example**:
 ```
-@modernization-planner We have a 10-year-old PHP 5.6 monolith that needs to be modernized to PHP 8.2+ with a better architecture. Help me create a complete modernization plan including assessment, strategy, phasing, and task breakdown.
+@modernization-planner Create migration strategy and phased roadmap from legacy Java to modern microservices architecture.
 ```
+
+---
+
+### Knowledge Management
+
+#### 4. knowledge-modeler
+**Purpose**: Models and organizes knowledge using hybrid storage approaches
+
+**Expertise**:
+- Designing data models and knowledge structures
+- Hybrid storage solutions (local files, vector DBs, relational, document, temporal, spatial)
+- Knowledge hierarchies and taxonomies
+- ETL/ELT pipeline design
+
+**Use when**: Need to organize project knowledge or design storage strategies
+
+**Example**:
+```
+@knowledge-modeler Design a knowledge structure for our modernization documentation using markdown files and vector search.
+```
+
+---
+
+#### 5. knowledge-retriever
+**Purpose**: Retrieves relevant information from multiple sources based on context
+
+**Expertise**:
+- Multi-source semantic and syntactic search
+- Historical context from commits and issues
+- Cross-referencing code, docs, and discussions
+- Knowledge gap identification
+
+**Use when**: Need to find specific information across the codebase and documentation
+
+**Example**:
+```
+@knowledge-retriever Find all authentication implementations, related tests, and security discussions in our repository.
+```
+
+---
+
+#### 6. knowledge-generator
+**Purpose**: Generates new knowledge through user collaboration to reduce ambiguity
+
+**Expertise**:
+- User elicitation through structured questioning
+- Documentation generation with iterative refinement
+- Specification creation (user stories, scenarios, requirements)
+- Ambiguity reduction and gap filling
+
+**Use when**: Need to create documentation or clarify unclear requirements
+
+**Example**:
+```
+@knowledge-generator Help me document our deployment process. I'll answer your questions about how it works.
+```
+
+---
+
+### Specification & Documentation
+
+#### 7. spec-generator
+**Purpose**: Generates formal specifications using industry standards
+
+**Expertise**:
+- PRDs, BRDs, TRDs generation
+- Design System Documentation
+- Gherkin feature files for BDD
+- OpenAPI/Swagger specifications
+- Architecture Decision Records format
+
+**Use when**: Need formal specification documents
+
+**Example**:
+```
+@spec-generator Create a Technical Requirements Document for migrating from REST to GraphQL, including performance and security requirements.
+```
+
+---
+
+#### 8. adr-generator
+**Purpose**: Generates Architecture Decision Records for approved decisions
+
+**Expertise**:
+- ADR creation in standard format
+- Documenting context, decision, and consequences
+- Recording alternatives considered
+- Maintaining decision history and relationships
+
+**Use when**: Significant architectural or technical decision has been made
+
+**Example**:
+```
+@adr-generator Document our decision to use PostgreSQL over MongoDB for our main datastore, including alternatives considered.
+```
+
+---
+
+#### 9. tool-documentation
+**Purpose**: Manages tool knowledge and generates Copilot instruction prompts
+
+**Expertise**:
+- Tool knowledge management with freshness tracking
+- Coordinating with research for current information
+- Generating Copilot instructions reflecting usage patterns
+- Version-specific guidance and best practices
+
+**Use when**: Referenced tool needs documentation or Copilot guidance
+
+**Example**:
+```
+@tool-documentation Document Vite v5 build tool and generate Copilot instructions for our project's usage patterns.
+```
+
+---
+
+#### 10. deps-documentation
+**Purpose**: Manages dependency knowledge and generates Copilot instruction prompts
+
+**Expertise**:
+- Dependency health monitoring (versions, security, maintenance)
+- Security vulnerability tracking
+- Generating Copilot instructions with safety guidance
+- Migration paths and compatibility information
+
+**Use when**: Referenced dependency needs documentation or security check
+
+**Example**:
+```
+@deps-documentation Check security status of React 16.14 and document upgrade path to React 18 with Copilot instructions.
+```
+
+---
+
+#### 11. prompt-engineer
+**Purpose**: Implements best practices for prompt engineering
+
+**Expertise**:
+- In-context learning (zero-shot, few-shot, multi-shot)
+- Cognitive architectures (CoT, ToT, GoT, Reflexion, Self-RAG)
+- Structural context optimization
+- Ambiguity resolution (Chain-of-Uncertain-Thoughts)
+
+**Use when**: Creating prompts for AI-assisted tasks
+
+**Example**:
+```
+@prompt-engineer Create effective prompts for Copilot to refactor callback-based code to async/await with proper error handling.
+```
+
+---
+
+### Architecture & Technical Guidance
+
+#### 12. architect
+**Purpose**: Expert architect providing pattern guidance and migration paths
+
+**Expertise**:
+- Architecture pattern identification
+- Migration path analysis considering dependencies
+- Dependency architecture evaluation
+- Architecture validation and review
+
+**Use when**: Need architectural expertise or pattern recommendations
+
+**Example**:
+```
+@architect Review our proposed microservices architecture and recommend migration pattern from current monolith.
+```
+
+---
+
+#### 13. research
+**Purpose**: Conducts research using fallback sources with quality evaluation
+
+**Expertise**:
+- Research planning with prioritized fallback strategies
+- Multi-source research (MCPs → official docs → web search → code)
+- Domain-specific quality evaluation
+- Research documentation with citations
+
+**Use when**: Need authoritative information on technologies, patterns, or practices
+
+**Example**:
+```
+@research Research best practices for event-driven microservices architecture, including case studies and migration patterns.
+```
+
+---
+
+#### 14. setup-planner
+**Purpose**: Analyzes tools and plans installation/configuration
+
+**Expertise**:
+- Tool evaluation and recommendation
+- Installation planning (multi-platform)
+- Configuration management
+- Verification and troubleshooting
+
+**Use when**: Need tool recommendations or setup guidance
+
+**Example**:
+```
+@setup-planner What tools do we need for React 16→18 migration? Provide evaluation and installation guide.
+```
+
+---
 
 ## Agent Collaboration Patterns
 
-These agents are designed to work together. The **modernization-planner** acts as an orchestrator that delegates to other agents:
+### Hierarchical Orchestration
+```
+modernization-planner (orchestrator)
+├── modernization-legacy-modeler (current state)
+├── modernization-desired-state-modeler (target state)
+├── architect (patterns and guidance)
+├── setup-planner (tools)
+└── adr-generator (document decisions)
+```
+
+### Knowledge Flow
+```
+research → tool-documentation/deps-documentation → Copilot Instructions
+research → knowledge-generator → spec-generator → ADR
+knowledge-retriever → knowledge-modeler → knowledge-generator
+```
+
+### Decision Documentation
+```
+Any agent decision → adr-generator → ADR → knowledge-modeler (storage)
+```
+
+## Typical Workflows
+
+### Complete Modernization Project
 
 ```
-modernization-planner
-  ├── knowledge-retriever (gathers information about legacy system)
-  ├── knowledge-modeler (structures the gathered information)
-  ├── knowledge-generator (elicits requirements from users)
-  ├── spec-generator (creates formal specifications)
-  └── setup-planner (ensures tools are available)
+1. @modernization-legacy-modeler Analyze our PHP 5.6 monolith
+   ↓ (provides current state)
+2. @modernization-desired-state-modeler Design target: PHP 8.2 + microservices
+   ↓ (provides target state)
+3. @modernization-planner Create migration strategy and phased roadmap
+   ↓ (coordinates all aspects)
+4. @architect Validate architecture approach
+5. @setup-planner Recommend and plan tools
+6. @adr-generator Document key decisions
+7. Execute plan with development team
 ```
 
-## Typical Modernization Workflow
+### Documentation Generation
 
-1. **Discovery Phase**
-   - Use `@modernization-planner` to kick off the project
-   - It will work with `@knowledge-retriever` to understand the current system
-   - `@knowledge-modeler` structures the findings
+```
+1. @knowledge-retriever Find all API endpoints and usage
+2. @knowledge-generator Elicit missing information from stakeholders
+3. @spec-generator Create OpenAPI specification
+4. @adr-generator Document API design decisions
+```
 
-2. **Requirements Phase**
-   - `@knowledge-generator` works with you to capture requirements
-   - `@spec-generator` creates formal specification documents
+### Dependency Management
 
-3. **Planning Phase**
-   - `@modernization-planner` develops the strategy and roadmap
-   - `@setup-planner` identifies required tools and creates setup guides
-
-4. **Execution Phase**
-   - Follow the plan created by `@modernization-planner`
-   - Use individual agents as needed for specific tasks
-   - Regular check-ins with `@modernization-planner` to track progress
+```
+1. @deps-documentation Check security status of current dependencies
+2. @research Research upgrade paths and breaking changes
+3. @deps-documentation Generate Copilot instructions for safe usage
+4. @adr-generator Document upgrade decisions
+```
 
 ## Best Practices
 
-### When to Use Which Agent
+### Choosing the Right Agent
 
-- **Starting a modernization project**: Start with `@modernization-planner`
-- **Need to understand existing code**: Use `@knowledge-retriever`
-- **Organizing project knowledge**: Use `@knowledge-modeler`
-- **Missing documentation**: Use `@knowledge-generator`
-- **Need formal specs**: Use `@spec-generator`
-- **Tool setup/selection**: Use `@setup-planner`
+- **Start with modernization-planner** for full modernization projects
+- **Use specialist agents** for focused tasks
+- **Leverage research agent** when information is needed
+- **Use architect** for complex architectural questions
+- **Document decisions** with adr-generator
+- **Generate instructions** with tool/deps documentation agents
 
 ### Agent Invocation Tips
 
-1. **Be specific**: Provide context and clear objectives
-2. **Reference files**: Mention specific files, components, or areas of the codebase
-3. **State constraints**: Mention budget, timeline, or technical constraints upfront
-4. **Iterate**: Work with agents iteratively, refining based on their output
-5. **Combine agents**: Don't hesitate to use multiple agents for complex tasks
+1. **Be specific**: Mention exact technologies, versions, components
+2. **Provide context**: Explain constraints (time, budget, team size)
+3. **State goals**: What you want to achieve
+4. **Reference files**: Point to specific code or documents
+5. **Iterate**: Refine based on agent output
 
-### Example Multi-Agent Workflow
+### Handoff Flow
 
-```
-Step 1: Start with modernization-planner
-@modernization-planner Analyze our legacy React 16 application and create a modernization plan to React 18 with TypeScript.
-
-Step 2: Get tool recommendations
-@setup-planner What tools should we use for the React 16 to 18 migration including code analysis, refactoring, and testing?
-
-Step 3: Generate specifications
-@spec-generator Create a TRD for the React 18 migration including TypeScript conversion requirements.
-
-Step 4: Create knowledge structure
-@knowledge-modeler Design a documentation structure for tracking our migration progress and decisions.
-
-Step 5: Fill documentation gaps
-@knowledge-generator Help me document the current component architecture and data flow patterns.
-```
-
-## Common Use Cases
-
-### Legacy System Modernization
-- **Scenario**: Modernizing a 10-year-old codebase
-- **Start with**: `@modernization-planner`
-- **Supporting agents**: All agents will be used throughout the process
-
-### API Documentation
-- **Scenario**: Creating comprehensive API documentation
-- **Start with**: `@knowledge-generator` or `@spec-generator`
-- **Supporting agents**: `@knowledge-retriever` to gather existing examples
-
-### Architecture Migration
-- **Scenario**: Moving from monolith to microservices
-- **Start with**: `@modernization-planner`
-- **Supporting agents**: `@spec-generator` for architecture docs, `@setup-planner` for infrastructure
-
-### Dependency Updates
-- **Scenario**: Upgrading framework versions and dependencies
-- **Start with**: `@setup-planner` to audit and plan updates
-- **Supporting agents**: `@modernization-planner` for phased approach
-
-### Technical Debt Reduction
-- **Scenario**: Systematically reducing technical debt
-- **Start with**: `@knowledge-retriever` to identify debt
-- **Supporting agents**: `@modernization-planner` to prioritize and plan
-
-## Troubleshooting
-
-### Agent Not Responding as Expected
-- Provide more context and specific details
-- Break down complex requests into smaller tasks
-- Explicitly state what you want the agent to do
-
-### Conflicting Recommendations
-- Agents may offer different perspectives
-- Use your judgment to decide the best approach
-- Consult `@modernization-planner` for synthesis
-
-### Need Human Decision
-- Agents will clearly identify decisions that require human judgment
-- Review recommendations, but make final calls yourself
-- Agents work best as advisors, not decision-makers
+Agents are designed to hand off to each other:
+- Modernization agents coordinate with each other
+- Research feeds into documentation agents
+- Documentation agents create Copilot instructions
+- All agents can trigger ADR generation
+- Architecture agent provides guidance to planners
 
 ## Integration with GitHub Copilot
 
 These agents are available through:
-- **GitHub CLI**: Use `gh copilot` commands with `@agent-name`
+- **GitHub CLI**: Use `gh copilot` with `@agent-name`
 - **GitHub Web Interface**: In Copilot chat
 - **VS Code** (when supported): Through Copilot chat panel
 
-## Further Resources
+## Agent Capabilities Summary
 
-- [GitHub Copilot Custom Agents Documentation](https://docs.github.com/en/copilot/how-tos/use-copilot-agents/coding-agent/create-custom-agents)
-- [Your First Custom Agent Tutorial](https://docs.github.com/en/copilot/tutorials/customization-library/custom-agents/your-first-custom-agent)
-- [Awesome GitHub Copilot Customizations](https://github.com/github/awesome-copilot)
-
-## Contributing
-
-To modify or extend these agents:
-1. Edit the agent markdown file in `.github/agents/`
-2. Update the YAML frontmatter (name, description, tools)
-3. Modify the agent instructions and best practices
-4. Commit changes - agents are updated automatically
+| Agent | Analysis | Design | Planning | Execution | Documentation |
+|-------|----------|--------|----------|-----------|---------------|
+| modernization-legacy-modeler | ✅ Primary | ❌ | ❌ | ❌ | ✅ |
+| modernization-desired-state-modeler | ❌ | ✅ Primary | ❌ | ❌ | ✅ |
+| modernization-planner | ✅ | ✅ | ✅ Primary | ❌ | ✅ |
+| knowledge-modeler | ❌ | ✅ | ❌ | ❌ | ✅ Primary |
+| knowledge-retriever | ✅ Primary | ❌ | ❌ | ❌ | ❌ |
+| knowledge-generator | ❌ | ❌ | ❌ | ❌ | ✅ Primary |
+| spec-generator | ❌ | ✅ | ❌ | ❌ | ✅ Primary |
+| adr-generator | ❌ | ❌ | ❌ | ❌ | ✅ Primary |
+| tool-documentation | ✅ | ❌ | ❌ | ❌ | ✅ Primary |
+| deps-documentation | ✅ | ❌ | ❌ | ❌ | ✅ Primary |
+| prompt-engineer | ❌ | ✅ Primary | ❌ | ❌ | ✅ |
+| architect | ✅ | ✅ Primary | ✅ | ❌ | ✅ |
+| research | ✅ Primary | ❌ | ❌ | ❌ | ✅ |
+| setup-planner | ✅ | ❌ | ✅ Primary | ❌ | ✅ |
 
 ## Version History
 
-- **v1.0** (2025-11-08): Initial release with six modernization-focused agents
+- **v2.0** (2025-11-08): Major refactoring based on feedback
+  - Split modernization-planner into 3 focused agents
+  - Added 6 new specialized agents
+  - Implemented comprehensive handoff patterns
+  - Added Copilot instruction generation
+  - Removed automation scripts (agents now guide)
+  
+- **v1.0** (2025-11-08): Initial release with 6 modernization-focused agents
 
 ---
 
-**Note**: These agents are designed to assist and advise. They work best when collaborating with experienced developers who can validate recommendations and make final decisions. Always review and test agent suggestions before implementing them in production systems.
+**Note**: These agents provide guidance and coordination. They work best when collaborating with experienced developers who validate recommendations and make final decisions. Always review and test agent suggestions before implementing in production systems.
