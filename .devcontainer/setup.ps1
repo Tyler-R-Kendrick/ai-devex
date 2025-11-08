@@ -21,14 +21,18 @@ try {
     Write-Host "✗ Failed to install uv package manager: $_" -ForegroundColor Red
 }
 
-# Install .NET Aspire workload
-Write-Host "Installing .NET Aspire workload..." -ForegroundColor Cyan
+# Install .NET Aspire CLI
+Write-Host "Installing .NET Aspire CLI..." -ForegroundColor Cyan
 try {
-    dotnet workload update
-    dotnet workload install aspire
-    Write-Host "✓ .NET Aspire workload installed successfully" -ForegroundColor Green
+    # Install Aspire CLI as a global tool
+    dotnet tool install -g Microsoft.Aspire.Cli
+    
+    # Add dotnet tools to PATH for current session
+    $env:PATH = "$env:HOME/.dotnet/tools:$env:PATH"
+    
+    Write-Host "✓ .NET Aspire CLI installed successfully" -ForegroundColor Green
 } catch {
-    Write-Host "✗ Failed to install .NET Aspire workload: $_" -ForegroundColor Red
+    Write-Host "✗ Failed to install .NET Aspire CLI: $_" -ForegroundColor Red
 }
 
 # Verify installations
@@ -47,9 +51,13 @@ if (Get-Command dotnet -ErrorAction SilentlyContinue) {
     $dotnetVersion = dotnet --version
     Write-Host "✓ dotnet: $dotnetVersion" -ForegroundColor Green
     
-    # List installed workloads
-    Write-Host "`nInstalled .NET workloads:" -ForegroundColor Cyan
-    dotnet workload list
+    # Check Aspire CLI
+    if (Get-Command aspire -ErrorAction SilentlyContinue) {
+        $aspireVersion = aspire --version
+        Write-Host "✓ Aspire CLI: $aspireVersion" -ForegroundColor Green
+    } else {
+        Write-Host "✗ Aspire CLI not found in PATH" -ForegroundColor Yellow
+    }
 } else {
     Write-Host "✗ dotnet not found" -ForegroundColor Red
 }

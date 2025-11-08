@@ -22,7 +22,7 @@ The following extensions are automatically installed:
 
 ### Additional Tools (Installed via Post-Create Script)
 - **uv** - Fast Python package installer and resolver
-- **.NET Aspire** - Cloud-native application development workload supporting both .NET and Python
+- **.NET Aspire CLI** - Cloud-native application development tool supporting both .NET and Python
 
 ## Usage
 
@@ -42,7 +42,7 @@ The following extensions are automatically installed:
 
 The dev container runs a PowerShell script (`.devcontainer/setup.ps1`) after creation that:
 1. Installs the uv package manager from astral.sh
-2. Installs the .NET Aspire workload
+2. Installs the .NET Aspire CLI as a global tool
 3. Verifies all tools are correctly installed
 
 You can monitor the setup progress in the terminal output.
@@ -51,13 +51,13 @@ You can monitor the setup progress in the terminal output.
 
 After the container is created, you can verify all tools are installed by running:
 
-```bash
+```powershell
 # Check uv
 uv --version
 
 # Check .NET and Aspire
 dotnet --version
-dotnet workload list
+aspire --version
 
 # Check Azure Developer CLI
 azd version
