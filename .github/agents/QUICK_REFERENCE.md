@@ -1,320 +1,325 @@
-# Quick Reference: Custom Agents for Code Modernization
+# Quick Reference: 14 Custom Agents for Code Modernization
 
-## Agent Summary Table
+## Agent Quick Lookup
 
-| Agent | Primary Focus | Key Tools | When to Use |
-|-------|--------------|-----------|-------------|
-| **knowledge-modeler** | Data structure design | bash, create, edit, search | Organizing knowledge, designing storage |
-| **knowledge-retriever** | Information discovery | search, view, web_search | Finding code, docs, historical context |
-| **knowledge-generator** | Documentation creation | create, edit, web_search | Filling documentation gaps, eliciting requirements |
-| **spec-generator** | Formal specifications | create, edit, view | PRDs, BRDs, TRDs, Gherkin, API specs |
-| **setup-planner** | Tool management | bash, view, create, web_search | Tool selection, installation, configuration |
-| **modernization-planner** | Orchestration | All agents | Overall modernization planning and coordination |
+| Agent | Focus | When to Use |
+|-------|-------|-------------|
+| **modernization-legacy-modeler** | Current state analysis | Starting modernization - analyze what exists |
+| **modernization-desired-state-modeler** | Target state design | Define where you want to be |
+| **modernization-planner** | Strategy & roadmap | Create comprehensive migration plan |
+| **knowledge-modeler** | Data structure design | Organize knowledge and design storage |
+| **knowledge-retriever** | Information discovery | Find code, docs, historical context |
+| **knowledge-generator** | Documentation creation | Fill documentation gaps, elicit requirements |
+| **spec-generator** | Formal specifications | PRDs, BRDs, TRDs, Gherkin, API specs |
+| **adr-generator** | Decision records | Document architectural decisions |
+| **tool-documentation** | Tool knowledge | Document tools, generate Copilot instructions |
+| **deps-documentation** | Dependency management | Track dependencies, security, Copilot instructions |
+| **prompt-engineer** | Prompt optimization | Create effective prompts for AI tasks |
+| **architect** | Architecture expertise | Pattern recommendations, migration guidance |
+| **research** | Information gathering | Research with fallback sources, quality evaluation |
+| **setup-planner** | Tool setup | Evaluate and plan tool installation |
 
-## Quick Start Commands
+## Common Commands
 
-### Starting a Modernization Project
-```bash
-@modernization-planner Help me modernize our [technology] application. 
-It's currently using [old versions] and we want to update to [new versions].
+### Full Modernization
+```
+@modernization-legacy-modeler Analyze our [tech stack] [age]-year-old application
+@modernization-desired-state-modeler Design target using [modern tech] with [patterns]
+@modernization-planner Create migration strategy and roadmap
 ```
 
-### Understanding Legacy Code
-```bash
-@knowledge-retriever Find all instances of [pattern/feature] in the codebase, 
-including related tests, documentation, and historical context.
+### Finding Information
+```
+@knowledge-retriever Find all [feature] implementations and related tests
+@research Research best practices for [technology/pattern]
 ```
 
 ### Creating Documentation
-```bash
-@knowledge-generator Help me create documentation for [component/module]. 
-I'll answer your questions about how it works.
+```
+@knowledge-generator Help me document [component/process]
+@spec-generator Create [PRD/BRD/TRD] for [feature/migration]
+@adr-generator Document decision to use [choice] over [alternatives]
 ```
 
-### Generating Specifications
-```bash
-@spec-generator Create a [PRD/BRD/TRD] for [project/feature] including 
-[specific sections you need].
+### Architecture & Tools
+```
+@architect Review proposed [architecture pattern] and recommend migration
+@setup-planner What tools for [task]? Provide recommendations and setup
 ```
 
-### Setting Up Tools
-```bash
-@setup-planner What tools do we need for [task]? 
-Include installation instructions for [platform].
+### Dependency Management
+```
+@deps-documentation Check [package]@[version] for security and upgrade path
+@tool-documentation Document [tool] v[version] with Copilot instructions
 ```
 
-### Organizing Knowledge
-```bash
-@knowledge-modeler Design a knowledge structure for [type of information] 
-using [storage preferences].
+### Prompting
+```
+@prompt-engineer Create prompts for [specific AI task] using [CoT/few-shot/etc]
 ```
 
-## Agent Workflow Examples
+## Workflow Examples
 
 ### Complete Modernization Project
 
-1. **Initial Assessment**
-   ```
-   @modernization-planner Assess our legacy PHP 5.6 application for 
-   modernization to PHP 8.2. Analyze the codebase and create an initial plan.
-   ```
+**Phase 1: Analysis**
+```
+@modernization-legacy-modeler Analyze our legacy Java 8 monolith application.
+Document architecture, technical debt, and dependencies.
+```
 
-2. **Tool Setup**
-   ```
-   @setup-planner Based on the modernization plan, what tools should we 
-   install? Provide setup instructions for Mac and Linux.
-   ```
+**Phase 2: Target Design**
+```
+@modernization-desired-state-modeler Design target: Java 17 microservices
+with Spring Boot 3, cloud-native patterns, and event-driven architecture.
+```
 
-3. **Document Current State**
-   ```
-   @spec-generator Create a TRD documenting the current architecture, 
-   dependencies, and technical debt.
-   ```
+**Phase 3: Architecture Review**
+```
+@architect Review proposed microservices architecture. Recommend migration
+pattern considering our monolithic database and shared dependencies.
+```
 
-4. **Create Migration Specs**
-   ```
-   @spec-generator Generate Gherkin feature files for testing the migration 
-   of our authentication module.
-   ```
+**Phase 4: Planning**
+```
+@modernization-planner Create migration strategy using Strangler Fig pattern.
+Generate phased roadmap with risk mitigation and task allocation.
+```
 
-5. **Track Progress**
-   ```
-   @knowledge-modeler Design a structure for tracking migration progress, 
-   decisions, and issues using markdown files and Git.
-   ```
+**Phase 5: Tool Setup**
+```
+@setup-planner Recommend tools for Java 8→17 migration including code
+analysis, refactoring, testing, and deployment. Provide setup guides.
+```
+
+**Phase 6: Document Decisions**
+```
+@adr-generator Document key decisions: microservices adoption, Strangler
+Fig strategy, Spring Boot 3 choice, cloud deployment approach.
+```
 
 ### API Documentation Project
 
-1. **Gather Existing Information**
-   ```
-   @knowledge-retriever Find all API endpoints, their implementations, 
-   tests, and any existing documentation.
-   ```
+**Step 1**
+```
+@knowledge-retriever Find all REST endpoints, implementations, and tests
+```
 
-2. **Create Comprehensive Docs**
-   ```
-   @spec-generator Create OpenAPI 3.0 specification for our REST API based 
-   on the code analysis.
-   ```
+**Step 2**
+```
+@knowledge-generator Elicit missing API documentation from team
+```
 
-3. **Fill Gaps**
-   ```
-   @knowledge-generator Help me document edge cases and error handling for 
-   our API endpoints.
-   ```
+**Step 3**
+```
+@spec-generator Create OpenAPI 3.0 specification from gathered information
+```
 
-### Dependency Update Project
+**Step 4**
+```
+@adr-generator Document API design decisions and standards chosen
+```
 
-1. **Audit Current Tools**
-   ```
-   @setup-planner Audit our current dependencies and recommend updates for 
-   our Node.js project.
-   ```
+### Dependency Security Audit
 
-2. **Create Update Plan**
-   ```
-   @modernization-planner Create a phased plan for updating dependencies 
-   with minimal risk.
-   ```
+**Step 1**
+```
+@deps-documentation Check all current dependencies for security
+vulnerabilities and maintenance status
+```
 
-3. **Document Changes**
-   ```
-   @spec-generator Document the breaking changes and migration steps for 
-   each major dependency update.
-   ```
+**Step 2**
+```
+@research Research secure alternatives for any abandoned or vulnerable
+packages
+```
+
+**Step 3**
+```
+@deps-documentation Generate Copilot instructions for safe usage of
+approved dependencies with version-specific guidance
+```
+
+**Step 4**
+```
+@adr-generator Document dependency choices and security standards
+```
 
 ## Agent Capabilities Matrix
 
-### knowledge-modeler
-✅ Design data schemas  
-✅ Recommend storage solutions  
-✅ Create taxonomies  
-✅ Design ETL pipelines  
-❌ Implement actual databases  
-❌ Write application code  
+### Primary Capabilities
 
-### knowledge-retriever
-✅ Search codebase  
-✅ Find historical context  
-✅ Cross-reference information  
-✅ Identify patterns  
-❌ Modify code  
-❌ Make decisions  
+| Task | Primary Agent | Supporting Agents |
+|------|---------------|-------------------|
+| Analyze legacy system | modernization-legacy-modeler | knowledge-retriever, architect |
+| Design target state | modernization-desired-state-modeler | architect, research |
+| Create migration plan | modernization-planner | All modernization + architect |
+| Find existing code | knowledge-retriever | - |
+| Organize knowledge | knowledge-modeler | knowledge-retriever |
+| Create documentation | knowledge-generator | knowledge-retriever |
+| Generate formal specs | spec-generator | knowledge-generator |
+| Document decisions | adr-generator | - |
+| Manage tool docs | tool-documentation | research |
+| Manage dependency docs | deps-documentation | research |
+| Create prompts | prompt-engineer | - |
+| Architecture guidance | architect | research |
+| Research information | research | - |
+| Plan tool setup | setup-planner | - |
 
-### knowledge-generator
-✅ Ask clarifying questions  
-✅ Generate documentation  
-✅ Create examples  
-✅ Iterative refinement  
-❌ Implement features  
-❌ Final decision-making  
+## Agent Handoff Patterns
 
-### spec-generator
-✅ Generate formal specs  
-✅ Create test scenarios  
-✅ Design system docs  
-✅ API specifications  
-❌ Write implementation code  
-❌ Execute tests  
+### Modernization Flow
+```
+modernization-legacy-modeler
+   ↓ (current state)
+modernization-desired-state-modeler
+   ↓ (target state + gap analysis)
+modernization-planner
+   ↓ (strategy + roadmap)
+adr-generator (document decisions)
+```
 
-### setup-planner
-✅ Recommend tools  
-✅ Create install guides  
-✅ Generate configs  
-✅ Troubleshooting steps  
-❌ Install tools directly  
-❌ Access your system  
+### Knowledge Flow
+```
+research
+   ↓ (findings)
+tool-documentation OR deps-documentation
+   ↓ (Copilot instructions)
+prompt-engineer (optimize)
+```
 
-### modernization-planner
-✅ Create comprehensive plans  
-✅ Coordinate agents  
-✅ Risk assessment  
-✅ Task breakdown  
-❌ Execute modernization  
-❌ Make business decisions  
+### Architecture Flow
+```
+modernization-legacy-modeler OR modernization-desired-state-modeler
+   ↓ (architecture questions)
+architect
+   ↓ (recommendations)
+adr-generator (document)
+```
 
-## Common Pitfalls and Solutions
+## Quick Decision Guide
 
-### Pitfall: Vague requests
-❌ "Help me with my code"  
-✅ "Analyze our authentication module for modernization from bcrypt to Argon2"
+**Need to understand what exists?**
+→ @modernization-legacy-modeler or @knowledge-retriever
 
-### Pitfall: Asking wrong agent
-❌ Asking knowledge-retriever to write specs  
-✅ Use knowledge-retriever to find info, then spec-generator to write specs
+**Need to define target state?**
+→ @modernization-desired-state-modeler
 
-### Pitfall: Expecting implementation
-❌ "Deploy this to production"  
-✅ "Create a deployment plan with steps and verification"
+**Need overall plan?**
+→ @modernization-planner
 
-### Pitfall: Not providing context
-❌ "What tools should I use?"  
-✅ "What tools should I use for migrating a React 16 app to React 18 with TypeScript?"
+**Need to find something?**
+→ @knowledge-retriever or @research
+
+**Need documentation?**
+→ @knowledge-generator or @spec-generator
+
+**Made a decision?**
+→ @adr-generator
+
+**Need architecture help?**
+→ @architect
+
+**Working with tools/deps?**
+→ @tool-documentation or @deps-documentation
+
+**Creating AI prompts?**
+→ @prompt-engineer
+
+**Setting up environment?**
+→ @setup-planner
+
+## Common Patterns
+
+### Pattern: Discovery → Design → Plan
+```
+1. @modernization-legacy-modeler [analyze current]
+2. @modernization-desired-state-modeler [design target]
+3. @modernization-planner [create roadmap]
+```
+
+### Pattern: Research → Document → Instruct
+```
+1. @research [investigate topic]
+2. @tool-documentation OR @deps-documentation [document findings]
+3. @prompt-engineer [optimize for Copilot]
+```
+
+### Pattern: Find → Generate → Formalize
+```
+1. @knowledge-retriever [find existing info]
+2. @knowledge-generator [fill gaps]
+3. @spec-generator [create formal spec]
+```
+
+### Pattern: Analyze → Recommend → Document
+```
+1. @architect [analyze architecture]
+2. @architect [recommend approach]
+3. @adr-generator [document decision]
+```
 
 ## Tips for Effective Use
 
-1. **Be Specific**: Mention exact technologies, versions, and components
-2. **Provide Context**: Explain constraints (time, budget, team size)
-3. **Use the Right Agent**: Match task to agent expertise
-4. **Iterate**: Start broad, then refine with follow-up questions
-5. **Validate Output**: Review agent recommendations before implementing
-6. **Combine Agents**: Use multiple agents for complex workflows
-7. **Ask for Options**: Request alternatives when multiple approaches exist
+1. **Be Specific**
+   - ❌ "Help with my app"
+   - ✅ "Analyze our React 16.8 SPA for migration to React 18 with TypeScript"
 
-## Agent Interaction Patterns
+2. **Provide Context**
+   - Mention current versions
+   - State constraints (time, budget, team size)
+   - Identify critical requirements
 
-### Sequential Pattern (One after another)
-```
-knowledge-retriever → knowledge-modeler → spec-generator
-(Find info) → (Organize it) → (Document it)
-```
+3. **Use Right Agent**
+   - Don't ask knowledge-retriever to create plans
+   - Don't ask spec-generator to analyze code
+   - Match task to agent expertise
 
-### Collaborative Pattern (Multiple agents on same task)
-```
-modernization-planner
-  ├─ knowledge-retriever (get current state)
-  ├─ knowledge-generator (elicit requirements)
-  ├─ spec-generator (create specs)
-  └─ setup-planner (plan tools)
-```
+4. **Iterate and Refine**
+   - Start with one agent
+   - Use output to inform next agent
+   - Refine based on feedback
 
-### Iterative Pattern (Repeat with refinement)
-```
-1. knowledge-generator → Create draft
-2. User feedback → Refine
-3. knowledge-generator → Update draft
-4. User approval → Finalize
-```
+5. **Document Decisions**
+   - Use adr-generator for significant choices
+   - Capture rationale and alternatives
+   - Build knowledge base over time
 
-## Response Format Examples
-
-### Asking for Analysis
-```
-@modernization-planner What's the risk level of upgrading from Java 8 to 
-Java 17 in our 500K LOC enterprise application?
-```
-
-Expected: Risk analysis, mitigation strategies, phased approach
-
-### Asking for Options
-```
-@setup-planner Should we use Jest or Vitest for our new Vite project?
-```
-
-Expected: Comparison table, pros/cons, recommendation with rationale
-
-### Asking for Documentation
-```
-@knowledge-generator Document our deployment process for new team members.
-```
-
-Expected: Questions about the process, then step-by-step documentation
-
-### Asking for Specifications
-```
-@spec-generator Create a BRD for adding OAuth2 authentication.
-```
-
-Expected: Complete BRD following standard template
+6. **Leverage Handoffs**
+   - Agents are designed to work together
+   - Reference previous agent outputs
+   - Follow suggested workflow patterns
 
 ## Troubleshooting
 
-### Agent doesn't understand request
-- Provide more context and background
-- Break complex requests into smaller parts
-- Use examples to clarify what you want
+**Agent not understanding request?**
+- Add more specific details
+- Break into smaller tasks
+- Try different agent
 
-### Agent provides generic advice
-- Be more specific about your exact situation
-- Mention specific technologies and versions
-- Provide code samples or file references
+**Need multiple perspectives?**
+- Use architect for expert view
+- Use research for external info
+- Use knowledge-retriever for internal info
 
-### Need to override agent recommendation
-- Agents are advisors, not decision-makers
-- Feel free to choose different approaches
-- Ask agent to adapt plan to your choice
+**Results too generic?**
+- Provide concrete examples
+- Specify versions and technologies
+- Include project-specific context
 
-### Want to see alternatives
-- Explicitly ask for multiple options
-- Request pros/cons comparison
-- Ask for reasoning behind recommendations
-
-## Best Practices Summary
-
-✅ **DO**
-- Provide clear context
-- Ask specific questions
-- Validate recommendations
-- Iterate and refine
-- Use appropriate agent for task
-- Combine agents for complex workflows
-
-❌ **DON'T**
-- Expect agents to execute changes
-- Rely solely on agent decisions
-- Skip validation of outputs
-- Use wrong agent for task
-- Provide insufficient context
-- Assume agents have full system access
-
-## Getting Help
-
-If agents aren't meeting your needs:
-
-1. Review this quick reference
-2. Check the main README.md in `.github/agents/`
-3. Read individual agent documentation
-4. Refine your prompts and try again
-5. Consider if you're using the right agent
-6. Break down complex tasks into smaller pieces
+**Need to combine outputs?**
+- Use modernization-planner to synthesize
+- Use knowledge-modeler to organize
+- Use spec-generator to formalize
 
 ## Version Info
 
-- **Version**: 1.0
+- **Version**: 2.0
+- **Agents**: 14 total
 - **Last Updated**: 2025-11-08
-- **Agents Count**: 6
-- **Total Lines**: ~2,300
+- **Structure**: 3 modernization orchestration, 3 knowledge management, 5 specification/documentation, 3 architecture/guidance
 
 ---
 
-*For complete documentation, see [README.md](README.md) in this directory.*
+*For detailed documentation, see [README.md](README.md) in this directory.*
+*For architecture patterns, see [ARCHITECTURE.md](ARCHITECTURE.md).*

@@ -1,346 +1,407 @@
-# Agent Architecture and Workflows
+# Agent Architecture and Collaboration
 
-## Agent Collaboration Architecture
+## System Overview
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                   modernization-planner                         │
-│                    (Orchestrator Agent)                          │
-│                                                                   │
-│  Coordinates all other agents to plan and execute                │
-│  comprehensive code modernization projects                       │
-└────────┬────────────┬───────────┬──────────┬────────────────────┘
-         │            │           │          │
-         ▼            ▼           ▼          ▼
-    ┌────────┐  ┌─────────┐ ┌─────────┐ ┌────────────┐
-    │ Know.  │  │ Know.   │ │ Know.   │ │   Setup    │
-    │Retrie- │  │Modeler  │ │Genera-  │ │  Planner   │
-    │  ver   │  │         │ │  tor    │ │            │
-    └────────┘  └─────────┘ └─────────┘ └────────────┘
-         │            │           │            │
-         └────────────┴───────────┴────────────┘
-                      │
-                      ▼
-              ┌──────────────┐
-              │     Spec     │
-              │  Generator   │
-              └──────────────┘
-```
-
-## Typical Modernization Workflow
+The agent system consists of 14 specialized agents organized into 4 functional categories. Agents collaborate through explicit handoff patterns to provide comprehensive support for code modernization.
 
 ```
-Phase 1: Discovery & Assessment
-────────────────────────────────
-User → modernization-planner: "Assess our legacy system"
-       │
-       ├─→ knowledge-retriever: Gather codebase information
-       │   └─→ Returns: code structure, dependencies, patterns
-       │
-       ├─→ knowledge-modeler: Organize findings
-       │   └─→ Returns: structured inventory
-       │
-       └─→ spec-generator: Document current state
-           └─→ Returns: "As-Is" architecture docs
-
-Phase 2: Requirements & Goals
-──────────────────────────────
-User ← modernization-planner: Asks clarifying questions
-       │
-       ├─→ knowledge-generator: Elicit detailed requirements
-       │   └─→ Iterates with user to capture goals
-       │
-       └─→ spec-generator: Create target state specs
-           └─→ Returns: PRDs, BRDs, TRDs
-
-Phase 3: Tool Setup
-────────────────────
-       modernization-planner
-       │
-       └─→ setup-planner: Identify and plan tools
-           └─→ Returns: Tool recommendations + install guides
-
-Phase 4: Modernization Plan
-────────────────────────────
-       modernization-planner
-       │
-       └─→ Synthesizes all inputs
-           └─→ Returns: Comprehensive modernization plan
-               - Phased roadmap
-               - Task breakdown (human vs AI)
-               - Risk assessment
-               - Success criteria
-
-Phase 5: Execution
-──────────────────
-User → Follows plan with Copilot coding agent
-       Iterates with agents as needed
+┌─────────────────────────────────────────────────────────────┐
+│              MODERNIZATION ORCHESTRATION (3)                 │
+│  ┌──────────────────┐  ┌──────────────────┐  ┌───────────┐ │
+│  │Legacy Modeler    │  │Desired State     │  │  Planner  │ │
+│  │(Current State)   │→ │Modeler (Target)  │→ │(Strategy) │ │
+│  └──────────────────┘  └──────────────────┘  └─────┬─────┘ │
+└──────────────────────────────────────────────────────┼───────┘
+                                                       │
+                    ┌──────────────────────────────────┼──────────────┐
+                    │                                  ↓              │
+         ┌──────────┴───────────┐        ┌─────────────────────┐    │
+         │                      │        │                     │    │
+┌────────▼────────┐  ┌─────────▼──────┐ │  ┌──────────────┐  │    │
+│  KNOWLEDGE      │  │ SPECIFICATION  │ │  │ ARCHITECTURE │  │    │
+│ MANAGEMENT (3)  │  │    & DOCS (5)  │ │  │  & GUIDANCE  │  │    │
+│                 │  │                │ │  │      (3)     │  │    │
+│ • Modeler       │  │ • Generator    │ │  │ • Architect  │  │    │
+│ • Retriever     │  │ • ADR Gen      │ │  │ • Research   │  │    │
+│ • Generator     │  │ • Tool Docs    │ │  │ • Prompt Eng │  │    │
+│                 │  │ • Deps Docs    │ │  │              │  │    │
+│                 │  │ • Prompt Eng   │ │  │              │  │    │
+└─────────────────┘  └────────────────┘ │  └──────────────┘  │    │
+                                        │                     │    │
+                                        └─────────────────────┘    │
+                                                                    │
+                                   ┌────────────────────────────────┘
+                                   │
+                                   ▼
+                          ┌─────────────────┐
+                          │  setup-planner  │
+                          │  (Tool Setup)   │
+                          └─────────────────┘
 ```
 
-## Agent Interaction Patterns
+## Agent Categories
 
-### Pattern 1: Sequential Chain
-```
-A → B → C → D → Result
+### 1. Modernization Orchestration (3 agents)
 
-Example:
-knowledge-retriever → knowledge-modeler → spec-generator → Document
-    (Find info)    →    (Structure it)  →  (Formalize it) → (Output)
-```
+These agents coordinate the overall modernization process from analysis through execution.
 
-### Pattern 2: Parallel Gathering
-```
-        ┌─→ Agent A ─┐
-Start ──┼─→ Agent B ─┼─→ Synthesize → Result
-        └─→ Agent C ─┘
+**modernization-legacy-modeler**
+- Input: Codebase, documentation, history
+- Output: Current state model, technical debt inventory
+- Handoff to: desired-state-modeler, architect, planner
 
-Example:
-              ┌─→ knowledge-retriever (code) ─┐
-              │                                 │
-Planner ─────┼─→ setup-planner (tools) ────────┼─→ Combined Plan
-              │                                 │
-              └─→ spec-generator (specs) ──────┘
-```
+**modernization-desired-state-modeler**
+- Input: Legacy model, business goals, requirements
+- Output: Target architecture, technology stack, gap analysis
+- Handoff to: planner, architect, adr-generator
 
-### Pattern 3: Iterative Refinement
-```
-User Request → Agent → Draft
-                ↑         │
-                │         ▼
-                └── Feedback ← User Review
+**modernization-planner**
+- Input: Legacy model, desired state model
+- Output: Strategy, roadmap, task breakdown, risk plan
+- Handoff to: Development team, adr-generator
 
-Example:
-User → knowledge-generator → Documentation Draft
-         ↑                          │
-         │                          ▼
-         └──── Refinements ← User Reviews
-```
+### 2. Knowledge Management (3 agents)
 
-### Pattern 4: Hierarchical Delegation
+These agents handle information gathering, organization, and generation.
+
+**knowledge-modeler**
+- Input: Information to organize
+- Output: Structured knowledge, storage design
+- Used by: All agents for knowledge organization
+
+**knowledge-retriever**
+- Input: Search queries, context
+- Output: Found information from multiple sources
+- Used by: All agents needing information
+
+**knowledge-generator**
+- Input: Requirements, user input
+- Output: New documentation, filled gaps
+- Used by: Agents needing documentation creation
+
+### 3. Specification & Documentation (5 agents)
+
+These agents create formal specifications and maintain current documentation.
+
+**spec-generator**
+- Input: Requirements, information
+- Output: Formal specs (PRDs, BRDs, TRDs, Gherkin, OpenAPI)
+- Used by: Modernization agents, architect
+
+**adr-generator**
+- Input: Decisions made
+- Output: Architecture Decision Records
+- Used by: All agents for decision documentation
+
+**tool-documentation**
+- Input: Tool name/version
+- Output: Tool docs, Copilot instructions
+- Coordinates with: research, prompt-engineer
+
+**deps-documentation**
+- Input: Dependency name/version
+- Output: Dependency docs, security info, Copilot instructions
+- Coordinates with: research, prompt-engineer
+
+**prompt-engineer**
+- Input: Task requirements
+- Output: Optimized prompts using CoT, few-shot, etc.
+- Used by: Agents needing prompt optimization
+
+### 4. Architecture & Technical Guidance (3 agents)
+
+These agents provide expert guidance and research.
+
+**architect**
+- Input: Architecture questions, systems
+- Output: Pattern recommendations, migration guidance
+- Coordinates with: All modernization agents, research
+
+**research**
+- Input: Research questions
+- Output: Research findings with citations, quality assessment
+- Used by: All agents needing external information
+
+**setup-planner**
+- Input: Tool requirements
+- Output: Tool recommendations, installation plans
+- Used by: Modernization planner, desired-state-modeler
+
+## Collaboration Patterns
+
+### Pattern 1: Modernization Flow
+
 ```
-Orchestrator
+User Request: "Modernize our legacy system"
     │
-    ├─→ Specialist 1
-    │   └─→ Sub-task A
+    ▼
+modernization-legacy-modeler
+- Analyzes current system
+- Coordinates with knowledge-retriever
+- Produces current state model
     │
-    ├─→ Specialist 2
-    │   └─→ Sub-task B
+    ▼
+modernization-desired-state-modeler  
+- Designs target state
+- Coordinates with architect
+- Coordinates with research
+- Produces target state model + gap analysis
     │
-    └─→ Specialist 3
-        └─→ Sub-task C
-
-Example:
-modernization-planner (decides what needs to be done)
+    ▼
+modernization-planner
+- Selects strategy
+- Creates roadmap
+- Allocates tasks
+- Produces comprehensive plan
     │
-    ├─→ knowledge-retriever (find legacy patterns)
-    │   └─→ Search for deprecated APIs
+    ▼
+adr-generator
+- Documents key decisions
+```
+
+### Pattern 2: Documentation Generation
+
+```
+User Request: "Document our API"
     │
-    ├─→ spec-generator (document migration)
-    │   └─→ Create Gherkin test scenarios
+    ▼
+knowledge-retriever
+- Finds API endpoints, implementations
     │
-    └─→ setup-planner (prepare tools)
-        └─→ Install refactoring tools
+    ▼
+knowledge-generator
+- Elicits missing information
+    │
+    ▼
+spec-generator
+- Creates OpenAPI specification
+    │
+    ▼
+adr-generator
+- Documents API design decisions
 ```
 
-## Data Flow Diagram
+### Pattern 3: Dependency Management
 
 ```
-                    ┌─────────────────┐
-                    │   User Input    │
-                    │  (Requirements, │
-                    │   Constraints)  │
-                    └────────┬────────┘
-                             │
-                             ▼
-┌────────────────────────────────────────────────────────────┐
-│              modernization-planner                         │
-│  • Understands requirements                                 │
-│  • Plans approach                                           │
-│  • Delegates to specialists                                 │
-└─────┬──────────┬───────────┬────────────┬──────────────────┘
-      │          │           │            │
-      ▼          ▼           ▼            ▼
-┌──────────┐ ┌──────┐  ┌──────────┐ ┌──────────┐
-│ Legacy   │ │Tools │  │  Target  │ │Knowledge │
-│ System   │ │ &    │  │  State   │ │Structure │
-│ Analysis │ │Infra │  │  Specs   │ │          │
-└────┬─────┘ └──┬───┘  └────┬─────┘ └────┬─────┘
-     │          │           │            │
-     │   ┌──────┴───────────┴────────┐   │
-     │   │    spec-generator         │   │
-     │   │  • Creates formal specs    │   │
-     │   │  • PRDs, BRDs, TRDs        │   │
-     │   │  • Gherkin scenarios       │   │
-     │   └──────────┬─────────────────┘   │
-     │              │                     │
-     └──────────────┴─────────────────────┘
-                    │
-                    ▼
-          ┌──────────────────┐
-          │  Comprehensive   │
-          │ Modernization    │
-          │      Plan        │
-          └────────┬─────────┘
-                   │
-                   ▼
-          ┌──────────────────┐
-          │   Execution by   │
-          │ Development Team │
-          │   + Copilot      │
-          └──────────────────┘
+User Request: "Check dependency security"
+    │
+    ▼
+deps-documentation
+- Checks current status
+- Identifies issues
+    │
+    ▼
+research
+- Researches alternatives if needed
+- Finds upgrade paths
+    │
+    ▼
+deps-documentation
+- Generates Copilot instructions
+- Documents recommendations
+    │
+    ▼
+adr-generator
+- Documents dependency decisions
 ```
 
-## Agent Responsibility Matrix
-
-| Task Type | Primary Agent | Supporting Agents | Output |
-|-----------|---------------|-------------------|--------|
-| **Find existing code** | knowledge-retriever | - | Code locations, patterns |
-| **Organize knowledge** | knowledge-modeler | knowledge-retriever | Structured data models |
-| **Create docs** | knowledge-generator | knowledge-retriever | Documentation |
-| **Formal specs** | spec-generator | knowledge-generator | PRDs, BRDs, TRDs, Gherkin |
-| **Tool selection** | setup-planner | - | Tool recommendations |
-| **Install guides** | setup-planner | - | Installation instructions |
-| **Overall planning** | modernization-planner | All agents | Comprehensive plan |
-| **Risk assessment** | modernization-planner | All agents | Risk matrix |
-| **Task allocation** | modernization-planner | - | Human vs AI breakdown |
-
-## Communication Flow
+### Pattern 4: Tool Knowledge Management
 
 ```
-User ←→ modernization-planner (Primary Interface)
-             │
-             ├─→ knowledge-retriever ─→ Returns data
-             │   (No user interaction)
-             │
-             ├─→ knowledge-modeler ─→ Returns structure
-             │   (No user interaction)
-             │
-             ├─→ knowledge-generator ←→ User
-             │   (Interactive, asks questions)
-             │
-             ├─→ spec-generator ─→ Returns specs
-             │   (Minimal user interaction)
-             │
-             └─→ setup-planner ─→ Returns tool plans
-                 (No user interaction)
-
-Legend:
-─→  One-way communication
-←→  Interactive/two-way communication
+Tool Referenced in Code
+    │
+    ▼
+tool-documentation
+- Checks if documentation exists
+- Checks if current
+    │
+    ▼ (if needed)
+research
+- Researches latest version
+- Finds best practices
+    │
+    ▼
+tool-documentation
+- Creates/updates documentation
+- Generates Copilot instructions
+    │
+    ▼
+prompt-engineer
+- Optimizes instruction format
 ```
 
-## Decision Tree: Which Agent to Use?
+## Data Flow
 
+### Information Flow
 ```
-                    Start
-                      │
-        ┌─────────────┼─────────────┐
-        ▼             ▼             ▼
-    Need to      Need to       Need to
-     find?       create?      setup?
-        │             │             │
-        ▼             ▼             ▼
-  knowledge-    knowledge-     setup-
-  retriever     generator     planner
-                      │
-            ┌─────────┼─────────┐
-            ▼         ▼         ▼
-        Formal?   Organize?  Modernize
-                              entire
-                              system?
-            │         │         │
-            ▼         ▼         ▼
-        spec-    knowledge-  modernization-
-        generator modeler    planner
+Source Code/Docs
+    │
+    ▼
+knowledge-retriever → Extract information
+    │
+    ▼
+knowledge-modeler → Organize information
+    │
+    ▼
+knowledge-generator → Fill gaps
+    │
+    ▼
+spec-generator → Formalize
+    │
+    ▼
+Storage (via knowledge-modeler)
 ```
 
-## Usage Decision Guide
-
-**Start with modernization-planner if:**
-- Beginning a new modernization project
-- Need comprehensive assessment and planning
-- Coordinating multiple aspects of modernization
-- Want end-to-end guidance
-
-**Use individual agents if:**
-- Have a specific, focused task
-- Already have a plan, need execution help
-- Working on isolated component
-- Need specialized expertise for one area
-
-**Combine agents when:**
-- Task spans multiple domains
-- Need different types of outputs
-- Building comprehensive documentation
-- Iterating on complex requirements
-
-## Example Agent Invocation Sequences
-
-### Example 1: Full Modernization Project
+### Decision Flow
 ```
-1. @modernization-planner "Analyze our PHP 5.6 monolith"
-   → Internally uses retriever, modeler, spec-generator
-2. @modernization-planner "Create migration plan to PHP 8.2"
-   → Internally uses all agents
-3. @setup-planner "Confirm tool selections and create setup guide"
-4. Execute plan with development team
+Analysis/Design by Any Agent
+    │
+    ▼
+Decision Made
+    │
+    ▼
+adr-generator → Create ADR
+    │
+    ▼
+knowledge-modeler → Store ADR
 ```
 
-### Example 2: Documentation Project
+### Instruction Flow
 ```
-1. @knowledge-retriever "Find all API endpoints"
-2. @spec-generator "Create OpenAPI spec from findings"
-3. @knowledge-generator "Help me document edge cases"
-4. @knowledge-modeler "Organize into documentation site structure"
-```
-
-### Example 3: Architecture Migration
-```
-1. @modernization-planner "Plan monolith to microservices"
-   → Coordinates all agents for comprehensive plan
-2. Follow phased plan from modernization-planner
-3. Use @spec-generator for service contracts as needed
-4. Use @setup-planner for infrastructure tools as needed
-```
-
-## Agent State and Context
-
-```
-┌────────────────────────────────────────────┐
-│         Each Agent Invocation              │
-│         (Fresh Context Window)             │
-├────────────────────────────────────────────┤
-│                                            │
-│  User must provide:                        │
-│  • Task description                        │
-│  • Relevant context                        │
-│  • Constraints                             │
-│  • Previous work if continuing             │
-│                                            │
-│  Agent maintains:                          │
-│  • Core instructions (from .md file)       │
-│  • Tool access                             │
-│  • Best practices knowledge                │
-│                                            │
-│  Agent does NOT maintain:                  │
-│  • Conversation history                    │
-│  • Previous task context                   │
-│  • User preferences (unless stated)        │
-│                                            │
-└────────────────────────────────────────────┘
+Tool/Dependency Referenced
+    │
+    ▼
+tool-documentation OR deps-documentation
+- Check freshness
+    │
+    ▼ (if update needed)
+research → Get latest info
+    │
+    ▼
+tool/deps-documentation → Generate Copilot instructions
+    │
+    ▼
+prompt-engineer → Optimize prompt structure
+    │
+    ▼
+Output: Copilot Instruction Prompt
 ```
 
-## Best Practices for Agent Coordination
+## Handoff Protocols
 
-1. **Use modernization-planner as entry point** for complex projects
-2. **Provide context** to each agent invocation
-3. **Reference previous work** when continuing tasks
-4. **Validate outputs** before proceeding to next agent
-5. **Combine outputs** from multiple agents into cohesive plan
-6. **Iterate** based on feedback and new information
+### Explicit Handoffs
+
+Agents use explicit handoff patterns described in their documentation:
+
+**To modernization-planner:**
+- From legacy-modeler: Current state analysis
+- From desired-state-modeler: Target state design
+- Expected: Comprehensive migration plan
+
+**To architect:**
+- From any agent: Architecture questions
+- Expected: Pattern recommendations, validation
+
+**To research:**
+- From any agent: Research questions
+- Expected: Research findings with citations
+
+**To adr-generator:**
+- From any agent: Decisions to document
+- Expected: Formal ADR
+
+**To tool/deps-documentation:**
+- From any agent: Tool/dependency referenced
+- Expected: Current documentation, Copilot instructions
+
+**To prompt-engineer:**
+- From any agent: Need optimized prompts
+- Expected: Structured prompts using best practices
+
+## Decision Tree
+
+```
+                        Start Task
+                            │
+            ┌───────────────┼───────────────┐
+            │               │               │
+         Need           Need             Need
+       Analysis?      Documentation?   Decision?
+            │               │               │
+            ▼               ▼               ▼
+    ┌──────────────┐  ┌─────────────┐  adr-generator
+    │What kind?    │  │What kind?   │
+    └──┬───────┬───┘  └──┬──────┬───┘
+       │       │         │      │
+    Legacy   Arch    New Doc  Formal
+       │       │         │      Spec
+       ▼       ▼         ▼      │
+ legacy-  architect  knowledge- │
+ modeler              generator  │
+                                 ▼
+                          spec-generator
+```
+
+## Communication Patterns
+
+### Synchronous (Direct Handoff)
+```
+Agent A completes task
+    ↓
+Agent A indicates next step: "Hand off to Agent B"
+    ↓
+User invokes Agent B with context
+    ↓
+Agent B continues workflow
+```
+
+### Asynchronous (Independent Tasks)
+```
+Multiple agents work independently
+    ↓
+modernization-planner synthesizes results
+    ↓
+Creates unified plan
+```
+
+### Iterative (Refinement)
+```
+Agent produces output
+    ↓
+User reviews
+    ↓
+User requests refinement
+    ↓
+Same or different agent refines
+    ↓
+Repeat until satisfied
+```
+
+## Best Practices
+
+### For Users
+
+1. **Start with the right agent** for your task type
+2. **Follow suggested handoffs** when agents recommend next steps
+3. **Provide context** when switching agents
+4. **Iterate** - refine outputs progressively
+5. **Document decisions** using adr-generator
+
+### For Integration
+
+1. **Respect agent expertise** - use specialist agents for their domain
+2. **Coordinate through handoffs** - don't skip recommended flows
+3. **Synthesize results** - use orchestration agents to combine outputs
+4. **Maintain context** - reference previous agent outputs
+5. **Track decisions** - use adr-generator consistently
+
+## Version History
+
+- **v2.0** (2025-11-08): Refactored architecture with 14 agents
+- **v1.0** (2025-11-08): Initial 6-agent architecture
 
 ---
 
-For more details, see:
-- [README.md](README.md) - Complete documentation
-- [QUICK_REFERENCE.md](QUICK_REFERENCE.md) - Fast lookup guide
+*For agent details, see [README.md](README.md).*
+*For quick commands, see [QUICK_REFERENCE.md](QUICK_REFERENCE.md).*
