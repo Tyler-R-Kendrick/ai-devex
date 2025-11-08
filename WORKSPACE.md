@@ -97,7 +97,7 @@ VS Code will prompt you to install recommended extensions. Accept the prompt to 
 
 Once configured, you can use the MCP servers in GitHub Copilot Chat:
 
-1. Open Copilot Chat (Ctrl+Alt+I or Cmd+Option+I)
+1. Open Copilot Chat (Ctrl+I or Cmd+I)
 2. The MCP servers will be available as context sources
 3. Ask questions like:
    - "Using Playwright, navigate to example.com and take a screenshot"
