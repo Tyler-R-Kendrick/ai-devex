@@ -1,6 +1,6 @@
 # Custom GitHub Copilot Agents for AI-Driven Code Modernization
 
-This directory contains 16 specialized custom GitHub Copilot agents designed to facilitate comprehensive AI-driven code modernization projects. These agents work together as a coordinated team to analyze legacy systems, plan modernization strategies, and execute transformations.
+This directory contains 15 specialized custom GitHub Copilot agents designed to facilitate comprehensive AI-driven code modernization projects. These agents work together as a coordinated team to analyze legacy systems, plan modernization strategies, and execute transformations.
 
 ## Overview
 
@@ -8,26 +8,7 @@ The agents follow a modular, collaborative approach where each agent has specifi
 
 All agents use the official GitHub Copilot handoff pattern with YAML frontmatter, enabling guided multi-agent workflows with explicit control points.
 
-## Quick Start - Modernize Command
-
-To quickly kickoff a modernization project, use the `/modernize` slash command:
-
-```
-@modernize /path/to/your/legacy/codebase
-```
-
-or with a git URL:
-
-```
-@modernize https://github.com/your/legacy-repo.git
-```
-
-This command will automatically orchestrate the entire modernization planning process by coordinating with the legacy modeler, desired state modeler, and modernization planner agents.
-
 ## Agent Categories
-
-### Modernization Entry Point (1 agent)
-Quick-start command to kickoff modernization with a single command
 
 ### Modernization Orchestration (3 agents)
 Coordinate the overall modernization process from analysis to execution
@@ -42,37 +23,6 @@ Create formal specifications, maintain current documentation, and generate Copil
 Provide expert guidance on architecture patterns, research, and prompting
 
 ## Available Agents
-
-### Modernization Entry Point
-
-#### 0. modernize (Slash Command)
-**Purpose**: Quick-start command to kickoff modernization planning from a source location
-
-**Expertise**:
-- Source location handling (local paths and git URLs)
-- Repository cloning and validation
-- Technology stack detection
-- Orchestrating the complete modernization planning workflow
-- Coordinating with legacy modeler, desired state modeler, and modernization planner
-
-**Use when**: Starting a new modernization project with a single command
-
-**Example**:
-```
-@modernize /path/to/legacy/app
-@modernize https://github.com/org/legacy-repo.git
-@modernize https://github.com/org/legacy-repo.git#v1.2.3
-```
-
-**What it does**:
-1. Validates and prepares the source location
-2. Clones git repository (if URL provided) or verifies local path
-3. Detects technology stack and project structure
-4. Hands off to modernization-legacy-modeler for analysis
-5. Hands off to modernization-desired-state-modeler for target design
-6. Hands off to modernization-planner for comprehensive strategy and roadmap
-
----
 
 ### Modernization Orchestration
 
@@ -382,31 +332,10 @@ Any agent decision → adr-generator → ADR → knowledge-modeler (storage)
 
 ## Typical Workflows
 
-### Complete Modernization Project (Quick Start)
-
-Use the `/modernize` slash command for the fastest way to kickoff a modernization project:
+### Complete Modernization Project
 
 ```
-@modernize /path/to/legacy/codebase
-```
-or
-```
-@modernize https://github.com/org/legacy-repo.git
-```
-
-This single command will automatically:
-1. Validate and prepare the source location
-2. Analyze the legacy system (via modernization-legacy-modeler)
-3. Design the target state (via modernization-desired-state-modeler)
-4. Create comprehensive modernization plan (via modernization-planner)
-5. Provide complete roadmap and next steps
-
-### Complete Modernization Project (Manual Steps)
-
-If you prefer to control each step manually:
-
-```
-1. @modernization-legacy-modeler Analyze our PHP 5.6 monolith at /path/to/code
+1. @modernization-legacy-modeler Analyze our PHP 5.6 monolith
    ↓ (provides current state)
 2. @modernization-desired-state-modeler Design target: PHP 8.2 + microservices
    ↓ (provides target state)
@@ -440,8 +369,7 @@ If you prefer to control each step manually:
 
 ### Choosing the Right Agent
 
-- **Start with @modernize** for quick-start modernization with a single command
-- **Use modernization-planner** for full control over the modernization process
+- **Start with modernization-planner** for full modernization projects
 - **Use specialist agents** for focused tasks
 - **Leverage research agent** when information is needed
 - **Use architect** for complex architectural questions
@@ -476,7 +404,6 @@ These agents are available through:
 
 | Agent | Analysis | Design | Planning | Execution | Documentation |
 |-------|----------|--------|----------|-----------|---------------|
-| modernize (slash command) | ✅ | ❌ | ✅ Orchestration | ❌ | ✅ |
 | modernization-legacy-modeler | ✅ Primary | ❌ | ❌ | ❌ | ✅ |
 | modernization-desired-state-modeler | ❌ | ✅ Primary | ❌ | ❌ | ✅ |
 | modernization-planner | ✅ | ✅ | ✅ Primary | ❌ | ✅ |
@@ -495,12 +422,6 @@ These agents are available through:
 
 ## Version History
 
-- **v2.2** (2025-11-08): Added modernize slash command
-  - Added modernize agent as quick-start entry point (16 agents total)
-  - Enables single-command modernization kickoff with source location
-  - Supports both local file paths and git URLs
-  - Automatically orchestrates legacy analysis, target design, and planning
-  
 - **v2.1** (2025-11-08): Handoff refactoring
   - Added copilot-instructions agent (15 agents total)
   - Implemented official YAML handoff pattern in all agents
