@@ -6,12 +6,8 @@ Write-Host "Starting post-create setup..." -ForegroundColor Green
 # Install uv package manager
 Write-Host "Installing uv package manager..." -ForegroundColor Cyan
 try {
-    # Install uv using the official installer
-    Invoke-WebRequest -Uri "https://astral.sh/uv/install.sh" -OutFile "/tmp/install-uv.sh"
-    Start-Process "chmod" -ArgumentList "+x", "/tmp/install-uv.sh" -Wait
-    if ($LASTEXITCODE -ne 0) { throw "chmod failed for /tmp/install-uv.sh" }
-    Start-Process "bash" -ArgumentList "/tmp/install-uv.sh" -Wait
-    if ($LASTEXITCODE -ne 0) { throw "uv install script failed" }
+    # Install uv using the official PowerShell installer
+    Invoke-RestMethod https://astral.sh/uv/install.ps1 | Invoke-Expression
     
     # Add uv to PATH for current session
     $env:PATH = "$env:HOME/.cargo/bin:$env:PATH"
